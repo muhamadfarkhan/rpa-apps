@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use App\Models\UserToken;
+use DB;
 
 class Authenticate
 {
@@ -39,18 +41,16 @@ class Authenticate
             return response('Unauthorized.', 401);
         }
 
-        return $next($request);
-
-        // if($this->checkToken($request->header('Authorization'),$request)){
-        //     return $next($request);
-        // }else{
-        //     return response('You are Unauthorized. Please login.', 401);
-        // }
+        if($this->checkToken($request->header('Authorization'),$request)){
+            return $next($request);
+        }else{
+            return response('You are Unauthorized. Please login.', 401);
+        }
     }
 
     private function checkToken($token,$request){
         try {
-            $user = UserToken::where(DB::raw('CONVERT(VARCHAR(max), token)'),$token)->firstOrFail();
+            $user = UserToken::where('token',$token)->firstOrFail();
 
             return true;
 

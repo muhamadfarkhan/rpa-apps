@@ -24,15 +24,17 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     
     $router->post('login', 'AuthController@login');
     
-    $router->get('profile', 'UserController@profile');
+    $router->get('profile', 'Master\UserController@profile');
 
-    $router->get('users/{id}', 'UserController@singleUser');
+    $router->get('users/{id}', 'Master\UserController@singleUser');
 
-    $router->get('users', 'UserController@allUsers');
+    $router->get('users', 'Master\UserController@allUsers');
     
-    $router->post('user/create', 'UserController@store');
+    $router->post('user/create', 'Master\UserController@store');
 
-    $router->post('user/update', 'UserController@update');
+    $router->post('user/update', 'Master\UserController@update');
+
+    $router->post('user/destroy', 'Master\UserController@destroy');
     
 });
  

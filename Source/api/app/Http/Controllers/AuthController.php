@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserToken;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -62,6 +63,11 @@ class AuthController extends Controller
         if (! $token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Wrong username or password'], 401);
         }
+
+        $user = new UserToken;
+        $user->user_id = Auth::user()->id;
+        $user->token = 'Bearer '.$token;
+        $user->save();
 
         return $this->respondWithToken($token);
     }
