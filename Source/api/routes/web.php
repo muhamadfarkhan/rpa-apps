@@ -24,17 +24,34 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     
     $router->post('login', 'AuthController@login');
     
+    // Master User
     $router->get('profile', 'Master\UserController@profile');
-
-    $router->get('users/{id}', 'Master\UserController@singleUser');
-
-    $router->get('users', 'Master\UserController@allUsers');
-    
+    $router->get('users', 'Master\UserController@all');
+    $router->get('users/{id}', 'Master\UserController@detail');
     $router->post('user/create', 'Master\UserController@store');
-
     $router->post('user/update', 'Master\UserController@update');
-
     $router->post('user/destroy', 'Master\UserController@destroy');
     
+    // Master RPA 
+    $router->get('rpas', 'Master\RPAController@all');
+    $router->get('rpa/{id}', 'Master\RPAController@detail');
+    $router->post('rpa/create', 'Master\RPAController@store');
+    $router->post('rpa/update', 'Master\RPAController@update');
+    $router->post('rpa/destroy', 'Master\RPAController@destroy');
+
+    // Master Area 
+    $router->get('areas', 'Master\AreaController@all');
+    $router->get('area/{id}', 'Master\AreaController@detail');
+    $router->post('area/create', 'Master\AreaController@store');
+    $router->post('area/update', 'Master\AreaController@update');
+    $router->post('area/destroy', 'Master\AreaController@destroy');
+
+    // Master Item 
+    $router->get('items', 'Master\ItemController@all');
+    $router->get('item/{id}', 'Master\ItemController@detail');
+    $router->post('item/create', 'Master\ItemController@store');
+    $router->post('item/update', 'Master\ItemController@update');
+    $router->post('item/destroy', 'Master\ItemController@destroy');
+
 });
  

@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Models\MArea;
 
-class UserController extends Controller
+class AreaController extends Controller
 {
      /**
-     * Instantiate a new UserController instance.
+     * Instantiate a new areaController instance.
      *
      * @return void
      */
@@ -20,36 +20,26 @@ class UserController extends Controller
     }
 
     /**
-     * Get the authenticated User.
-     *
-     * @return Response
-     */
-    public function profile()
-    {
-        return response()->json(['user' => Auth::user()], 200);
-    }
-
-    /**
-     * Get all User.
+     * Get all Area.
      *
      * @return Response
      */
     public function all()
     {
-         return response()->json(['users' =>  User::all()], 200);
+         return response()->json(['areas' =>  MArea::all()], 200);
     }
 
     /**
-     * Get one user.
+     * Get one MArea.
      *
      * @return Response
      */
     public function detail($id)
     {
         try {
-            $user = User::findOrFail($id);
+            $area = MArea::findOrFail($id);
 
-            return response()->json(['user' => $user], 200);
+            return response()->json(['area' => $area], 200);
 
         } catch (\Exception $e) {
 
@@ -69,26 +59,19 @@ class UserController extends Controller
         //validate incoming request 
         $this->validate($request, [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed',
+            'address' => 'required|string|',
         ]);
 
         try {
 
-            $user = new User;
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->level = $request->input('level');
-            $user->rpa_id = $request->input('rpa_id');
-            $user->area_id = $request->input('area_id');
-            $user->sup_id = $request->input('sup_id');
-            $plainPassword = $request->input('password');
-            $user->password = app('hash')->make($plainPassword);
-
-            $user->save();
+            $area = new MArea;
+            $area->name = $request->input('name');
+            $area->address = $request->input('address');
+            
+            $area->save();
 
             //return successful response
-            return response()->json(['user' => $user, 'message' => 'Successfully created'], 201);
+            return response()->json(['area' => $area, 'message' => 'Successfully created'], 201);
 
         } catch (\Exception $e) {
             //return error message
@@ -112,17 +95,14 @@ class UserController extends Controller
 
         try {
 
-            $user = User::find($request->input('id'));
-            $user->name = $request->input('name');
-            $user->level = $request->input('level');
-            $user->rpa_id = $request->input('rpa_id');
-            $user->area_id = $request->input('area_id');
-            $user->sup_id = $request->input('sup_id');
+            $area = MArea::find($request->input('id'));
+            $area->name = $request->input('name');
+            $area->address = $request->input('address');;
 
-            $user->save();
+            $area->save();
 
             //return successful response
-            return response()->json(['user' => $user, 'message' => 'Successfully updated'], 201);
+            return response()->json(['area' => $area, 'message' => 'Successfully updated'], 201);
 
         } catch (\Exception $e) {
             //return error message
@@ -139,15 +119,15 @@ class UserController extends Controller
     public function destroy(Request $request)
     {
         try {
-            $user = User::findOrFail($request->input('id'));
+            $area = MArea::findOrFail($request->input('id'));
 
-            $user->delete();
+            $area->delete();
 
             return response()->json(['message' => 'Successfully deleted'], 200);
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'User not found!'], 404);
+            return response()->json(['message' => 'area not found!'], 404);
         }
 
     }
