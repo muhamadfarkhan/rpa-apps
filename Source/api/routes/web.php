@@ -1,5 +1,7 @@
 <?php
 
+use App\Helpers\MasterHelper;
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -31,6 +33,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('user/create', 'Master\UserController@store');
     $router->post('user/update', 'Master\UserController@update');
     $router->post('user/destroy', 'Master\UserController@destroy');
+    $router->post('user/change_pwd', 'Master\UserController@changePwd');
     
     // Master RPA 
     $router->get('rpas', 'Master\RPAController@all');
@@ -52,6 +55,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('item/create', 'Master\ItemController@store');
     $router->post('item/update', 'Master\ItemController@update');
     $router->post('item/destroy', 'Master\ItemController@destroy');
+
+    // List data
+    $router->get('list/level', function(){
+        return MasterHelper::listLevelUser();
+    });
 
 });
  

@@ -44,18 +44,16 @@ class Authenticate
         if($this->checkToken($request->header('Authorization'),$request)){
             return $next($request);
         }else{
-            return response('You are Unauthorized. Please login.', 401);
+            return response()->json(['message' => 'You are Unauthorized. Please login'], 200);
         }
     }
 
     private function checkToken($token,$request){
         try {
             $user = UserToken::where('token',$token)->firstOrFail();
-
             return true;
 
         } catch (\Exception $e) {
-
             return false;
         }
     }

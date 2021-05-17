@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -149,6 +150,43 @@ class UserController extends Controller
 
             return response()->json(['message' => 'User not found!'], 404);
         }
+
+    }
+
+    /**
+     * Change password user.
+     *
+     * @return Response
+     */
+    public function changePwd(Request $request)
+    {
+        // return Auth::user()->id;
+
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
+
+        $current_password = Auth::User()->password;
+
+        if(Hash::check($old_password, $current_password)){
+           
+            $data['password'] = app('hash')->make($request->new_password);
+
+            try {
+                User::where('id', Auth::user()->id)
+                        ->update($data);
+                        
+                return response()->json(['result' => true, 'message' =>  'Yeay... Password berhasil diubah'], 200);
+
+            } catch (\Exception $e) {
+                //return error message
+                return response()->json(['message' => 'Change password failed!', 'error' => $e], 409);
+            }
+
+        }else{
+            return response()->json(['message' =>  'Oops... Salah memasukan password anda saat ini'], 409);
+        }
+
+        
 
     }
 
