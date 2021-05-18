@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MItem;
+use Illuminate\Support\Str;
 
 class ItemController extends Controller
 {
@@ -67,6 +68,11 @@ class ItemController extends Controller
             $item = new MItem;
             $item->name = $request->input('name');
             $item->description = $request->input('description');
+            $item->initial = $request->input('initial');
+
+            if(empty($request->input('initial'))){
+                $item->initial = strtoupper(Str::random(3));
+            }
             
             $item->save();
 
@@ -98,6 +104,7 @@ class ItemController extends Controller
             $item = MItem::find($request->input('id'));
             $item->name = $request->input('name');
             $item->description = $request->input('description');
+            $item->initial = $request->input('initial');
 
             $item->save();
 
