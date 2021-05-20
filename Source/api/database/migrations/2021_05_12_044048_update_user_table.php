@@ -18,7 +18,7 @@ class UpdateUserTable extends Migration
             $table->integer('area_id')->default(0)->after('email')->nullable();
             $table->integer('rpa_id')->default(0)->after('email')->nullable();
             $table->integer('level')->default(0)->after('email')->nullable();
-          });
+        });
     }
 
     /**

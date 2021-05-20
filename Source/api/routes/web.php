@@ -68,8 +68,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('tonase/header/update', 'Trans\TonaseHController@update');
     $router->post('tonase/header/destroy', 'Trans\TonaseHController@destroy');
 
-    $router->get('tonase/detail/{id}', 'Trans\TonaseDController@detail');
+    $router->get('tonase/{id}', 'Trans\TonaseHController@detail');
+
     $router->post('tonase/detail/create', 'Trans\TonaseDController@store');
+    $router->get('tonase/detail/{id}', 'Trans\TonaseDController@detail');
     $router->post('tonase/detail/update', 'Trans\TonaseDController@update');
     $router->post('tonase/detail/destroy', 'Trans\TonaseDController@destroy');
 
