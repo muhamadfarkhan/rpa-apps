@@ -1,13 +1,11 @@
 package com.rpathechicken.ui.profile
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
@@ -16,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.rpathechicken.R
 import com.rpathechicken.databinding.FragmentProfileBinding
+import com.rpathechicken.helpers.SessionManager
+import com.rpathechicken.ui.LoginActivity
 import com.rpathechicken.ui.profile.detail.PersonalDetailActivity
 
 
@@ -23,6 +23,8 @@ class ProfileFragment : Fragment() {
 
     private lateinit var notificationsViewModel: ProfileViewModel
     private var _binding: FragmentProfileBinding? = null
+    private lateinit var session: SessionManager
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -37,6 +39,8 @@ class ProfileFragment : Fragment() {
             ViewModelProvider(this).get(ProfileViewModel::class.java)
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        session = SessionManager(requireContext())
 
         initToolbar()
         initComponent()
@@ -63,6 +67,19 @@ class ProfileFragment : Fragment() {
                 dialog.dismiss()
             }
             dialog.show()
+        }
+
+        binding.layoutProfileMenu.logoutApp.setOnClickListener {
+            val builder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(requireContext())
+            builder.setTitle("Are you sure ?")
+            builder.setPositiveButton("Logout"
+            ) { _, _ ->
+                session.logout()
+                activity?.finish()
+                startActivity(Intent(context, LoginActivity::class.java))
+            }
+            builder.setNegativeButton("cancel", null)
+            builder.show()
         }
     }
 

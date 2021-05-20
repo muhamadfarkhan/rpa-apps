@@ -5,13 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.rpathechicken.R
 import com.rpathechicken.databinding.FragmentHomeBinding
-import com.rpathechicken.helpers.TestActivity
 import com.rpathechicken.ui.LoginActivity
 
 class HomeFragment : Fragment() {
@@ -34,10 +30,13 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.profile.setOnClickListener {
-            startActivity(Intent(context,LoginActivity::class.java))
-        }
+        initButton()
+
         return root
+    }
+
+    private fun initButton() {
+
     }
 
     override fun onDestroyView() {

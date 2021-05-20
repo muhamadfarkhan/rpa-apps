@@ -12,7 +12,6 @@
 
         <activity android:name=".ui.profile.detail.PersonalDetailActivity"/>
         <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".helpers.TestActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

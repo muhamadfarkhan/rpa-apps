@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/spacing_medium"
-            android:paddingRight="@dimen/spacing_medium">
+            android:paddingLeft="@dimen/spacing_none"
+            android:paddingRight="@dimen/spacing_none">
 
             <TextView
                 android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/transparent"
-                            android:tint="@color/deep_purple_500"
+                            android:tint="@color/colorPrimaryLight"
                             app:srcCompat="@drawable/ic_account_circle" />
 
                         <TextView
@@ -100,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/transparent"
-                            android:tint="@color/deep_purple_500"
+                            android:tint="@color/colorPrimaryLight"
                             app:srcCompat="@drawable/ic_account_balance" />
 
                         <TextView
@@ -141,7 +141,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/transparent"
-                            android:tint="@color/deep_purple_500"
+                            android:tint="@color/colorPrimaryLight"
                             app:srcCompat="@drawable/ic_shopping_cart" />
 
                         <TextView
@@ -210,7 +210,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/transparent"
-                            android:tint="@color/deep_purple_500"
+                            android:tint="@color/colorPrimaryLight"
                             app:srcCompat="@drawable/ic_vpn_key" />
 
                         <TextView
@@ -251,7 +251,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/transparent"
-                            android:tint="@color/deep_purple_500"
+                            android:tint="@color/colorPrimaryLight"
                             app:srcCompat="@drawable/ic_phone_android" />
 
                         <TextView
@@ -261,6 +261,47 @@
                             android:layout_marginRight="@dimen/spacing_large"
                             android:layout_weight="1"
                             android:text="About App"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_80"
+                            app:fontFamily="sans-serif-medium" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_arrow_right" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_5" />
+
+                    <LinearLayout
+                        android:id="@+id/logout_app"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_xxlarge"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_large"
+                        android:paddingRight="@dimen/spacing_large">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:tint="@color/colorPrimaryLight"
+                            app:srcCompat="@drawable/ic_work" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_large"
+                            android:layout_marginRight="@dimen/spacing_large"
+                            android:layout_weight="1"
+                            android:text="Logout"
                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                             android:textColor="@color/grey_80"
                             app:fontFamily="sans-serif-medium" />
