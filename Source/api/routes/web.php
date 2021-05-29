@@ -29,7 +29,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // Master User
     $router->get('profile', 'Master\UserController@profile');
     $router->get('users', 'Master\UserController@all');
-    $router->get('users/{id}', 'Master\UserController@detail');
+    $router->get('user/{id}', 'Master\UserController@detail');
     $router->post('user/create', 'Master\UserController@store');
     $router->post('user/update', 'Master\UserController@update');
     $router->post('user/destroy', 'Master\UserController@destroy');
@@ -57,9 +57,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('item/destroy', 'Master\ItemController@destroy');
 
     // List data
-    $router->get('list/level', function(){
-        return MasterHelper::listLevelUser();
-    });
+    $router->get('list/level', function(){ return MasterHelper::listLevelUser(); });
+    $router->get('list/rpa', function(){ return MasterHelper::listRPA(); });
+    $router->get('list/area', function(){ return MasterHelper::listArea(); });
 
     // Transact Tonase (Header Detail)
     $router->get('tonase/header', 'Trans\TonaseHController@all');

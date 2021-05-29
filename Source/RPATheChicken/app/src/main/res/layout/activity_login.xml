@@ -90,6 +90,11 @@
                 android:textColor="@color/blue_grey_800"
                 android:textStyle="bold" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
@@ -103,6 +108,7 @@
                 android:textColor="@color/blue_grey_300"
                 android:theme="@style/EditText.Grey" />
 
+            </com.google.android.material.textfield.TextInputLayout>
             <View
                 android:layout_width="0dp"
                 android:layout_height="@dimen/spacing_middle" />
@@ -172,6 +178,10 @@
                 android:layout_height="@dimen/spacing_xlarge" />
 
         </LinearLayout>
+
+        <include
+            layout="@layout/include_progress_overlay"
+            android:id="@+id/layout_progress"/>
 
     </RelativeLayout>
 

@@ -97,6 +97,7 @@
                         android:paddingRight="@dimen/spacing_large">
 
                         <TextView
+                            android:id="@+id/user_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="+6281297755878"
@@ -129,6 +130,7 @@
                         android:paddingRight="@dimen/spacing_large">
 
                         <TextView
+                            android:id="@+id/user_mail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="admin@rpathechicken.com"
@@ -202,6 +204,11 @@
         app:civ_shadow_radius="0"
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|center" />
+
+
+    <include
+        layout="@layout/include_progress_overlay"
+        android:id="@+id/layout_progress"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

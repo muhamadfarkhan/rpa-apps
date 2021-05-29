@@ -26,7 +26,12 @@ class AreaController extends Controller
      */
     public function all()
     {
-         return response()->json(['areas' =>  MArea::all()], 200);
+         return response()->json(
+             ['areas' =>  MArea::select('m_area.*','m_rpa.name as rpa_name')
+                        ->join('m_rpa','m_rpa.id','m_area.rpa_id')
+                        ->orderBy('m_area.id','desc')->get() 
+        
+        ], 200);
     }
 
     /**
@@ -37,7 +42,9 @@ class AreaController extends Controller
     public function detail($id)
     {
         try {
-            $area = MArea::findOrFail($id);
+            $area = MArea::select('m_area.*','m_rpa.name as rpa_name','m_rpa.id as rpa_id'
+            ,'m_rpa.address as rpa_address')
+            ->join('m_rpa','m_rpa.id','m_area.rpa_id')->findOrFail($id);
 
             return response()->json(['area' => $area], 200);
 
@@ -59,7 +66,8 @@ class AreaController extends Controller
         //validate incoming request 
         $this->validate($request, [
             'name' => 'required|string',
-            'address' => 'required|string|',
+            'address' => 'required|string',
+            'rpa_id' => 'required|integer',
         ]);
 
         try {
@@ -67,6 +75,7 @@ class AreaController extends Controller
             $area = new MArea;
             $area->name = $request->input('name');
             $area->address = $request->input('address');
+            $area->rpa_id = $request->input('rpa_id');
             
             $area->save();
 
@@ -97,7 +106,8 @@ class AreaController extends Controller
 
             $area = MArea::find($request->input('id'));
             $area->name = $request->input('name');
-            $area->address = $request->input('address');;
+            $area->address = $request->input('address');
+            $area->rpa_id = $request->input('rpa_id');
 
             $area->save();
 

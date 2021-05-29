@@ -28,6 +28,21 @@ class SessionManager(var c: Context) {
     val isLogin: Boolean
         get() = pref.getBoolean(KEY_LOGIN, false)
 
+    //cek status input
+    var isCreate: Boolean
+        get() = pref.getBoolean("isCreate", true)
+        set(isCreate) {
+            editor.putBoolean("isCreate", isCreate!!)
+            editor.commit()
+        }
+
+    var idEditData: Int
+        get() = pref.getInt("idEditData", 0)
+        set(idEditData) {
+            editor.putInt("idEditData", idEditData!!)
+            editor.commit()
+        }
+
     //logout user
     fun logout() {
         editor.clear()
@@ -330,6 +345,24 @@ class SessionManager(var c: Context) {
         get() = pref.getString("username", "")
         set(username) {
             editor.putString("username", username)
+            editor.commit()
+        }
+    var fullname: String?
+        get() = pref.getString("fullname", "")
+        set(fullname) {
+            editor.putString("fullname", fullname)
+            editor.commit()
+        }
+    var rpaId: String?
+        get() = pref.getString("rpaId", "")
+        set(rpaId) {
+            editor.putString("rpaId", rpaId)
+            editor.commit()
+        }
+    var areaId: String?
+        get() = pref.getString("areaId", "")
+        set(areaId) {
+            editor.putString("areaId", areaId)
             editor.commit()
         }
     var myPoint: String?

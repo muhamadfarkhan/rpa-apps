@@ -15,4 +15,10 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="app_version">Build Version 1.0</string>
     <string name="about_text">Apps Rumah Potong Ayam The Chicken</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="changing_password">Changing your password</string>
+    <string name="title_default">Menu</string>
+    <string name="version_unknown">version unknown</string>
+    <string name="delete_data">Deleting data</string>
+    <string name="getting_data">Getting list data</string>
 </resources>

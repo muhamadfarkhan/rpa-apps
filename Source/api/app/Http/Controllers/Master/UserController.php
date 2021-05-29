@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\MRpa;
+use App\Models\MGeneralCode;
+use App\Models\MArea;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -50,7 +53,11 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
 
-            return response()->json(['user' => $user], 200);
+            $rpa = MRpa::where('id',$user->rpa_id)->first();
+            $level = MGeneralCode::where('header','level_user')->where('code',$user->level)->first();
+            $area = MArea::where('id',$user->area_id)->first();
+
+            return response()->json(['user' => $user, 'rpa' => $rpa, 'level' => $level, 'area' => $area], 200);
 
         } catch (\Exception $e) {
 
@@ -78,7 +85,9 @@ class UserController extends Controller
 
             $user = new User;
             $user->name = $request->input('name');
+            $user->username = str_replace(' ','',$request->input('username'));
             $user->email = $request->input('email');
+            $user->phone = $request->input('phone');
             $user->level = $request->input('level');
             $user->rpa_id = $request->input('rpa_id');
             $user->area_id = $request->input('area_id');
@@ -93,7 +102,7 @@ class UserController extends Controller
 
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'User Registration Failed!'], 409);
+            return response()->json(['message' => 'User Registration Failed!' . $e], 409);
         }
 
     }
@@ -115,6 +124,7 @@ class UserController extends Controller
 
             $user = User::find($request->input('id'));
             $user->name = $request->input('name');
+            $user->phone = $request->input('phone');
             $user->level = $request->input('level');
             $user->rpa_id = $request->input('rpa_id');
             $user->area_id = $request->input('area_id');

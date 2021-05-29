@@ -1,0 +1,32 @@
+package com.rpathechicken.api
+
+class ApiEndPoint {
+    companion object{
+
+        private const val BASE = "http://192.168.1.7:8000/api"
+        //private const val BASE = "http://10.161.159.75:8000/api"
+
+        const val login = "$BASE/login"
+        const val change_pwd = "$BASE/user/change_pwd"
+        const val profile = "$BASE/profile"
+        const val list_level = "$BASE/list/level"
+        const val list_rpa = "$BASE/list/rpa"
+        const val list_area = "$BASE/list/area"
+        const val user_list = "$BASE/users"
+        const val user_detail = "$BASE/user"
+        const val user_create = "$BASE/user/create"
+        const val user_update = "$BASE/user/update"
+        const val user_destroy = "$BASE/user/destroy"
+        const val rpa_list = "$BASE/rpas"
+        const val rpa_detail = "$BASE/rpa"
+        const val rpa_create = "$BASE/rpa/create"
+        const val rpa_update = "$BASE/rpa/update"
+        const val rpa_destroy = "$BASE/rpa/destroy"
+        const val area_list = "$BASE/areas"
+        const val area_detail = "$BASE/area"
+        const val area_create = "$BASE/area/create"
+        const val area_update = "$BASE/area/update"
+        const val area_destroy = "$BASE/area/destroy"
+
+    }
+}

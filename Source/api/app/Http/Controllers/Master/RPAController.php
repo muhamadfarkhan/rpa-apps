@@ -67,6 +67,7 @@ class RPAController extends Controller
             $rpa = new MRpa;
             $rpa->name = $request->input('name');
             $rpa->address = $request->input('address');
+            $rpa->initial = $request->input('initial');
             
             $rpa->save();
 
@@ -98,6 +99,7 @@ class RPAController extends Controller
             $rpa = MRpa::find($request->input('id'));
             $rpa->name = $request->input('name');
             $rpa->address = $request->input('address');;
+            $rpa->initial = $request->input('initial');
 
             $rpa->save();
 

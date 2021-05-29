@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8a5a44</color>
-    <color name="colorPrimaryDark">#774936</color>
-    <color name="colorPrimaryLight">#b07d62</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorAccentDark">#F50057</color>
-    <color name="colorAccentLight">#FF80AB</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="colorPrimary">#0077B6</color>
+    <color name="colorPrimaryDark">#023E8A</color>
+    <color name="colorPrimaryLight">#0096C7</color>
+    <color name="colorAccent">#00B4D8</color>
+    <color name="colorAccentDark">#1282A2</color>
+    <color name="colorAccentLight">#48CAE4</color>
+<!--  blue oxford  <color name="colorPrimary">#034078</color>-->
+<!--    <color name="colorPrimaryDark">#001F54</color>-->
+<!--    <color name="colorPrimaryLight">#034078</color>-->
+<!--    <color name="colorAccent">#1282A2</color>-->
+<!--    <color name="colorAccentDark">#107793</color>-->
+<!--    <color name="colorAccentLight">#16A3CA</color>-->
+<!--    <color name="white">#FFFFFF</color>-->
+<!--    <color name="black">#000000</color>-->
 
     <color name="overlay_dark_5">#0C000000</color>
     <color name="overlay_dark_10">#1A000000</color>
@@ -323,8 +329,7 @@
 
 
     <color name="green_brown">#adc178</color>
-
-
+    <color name="white">#FFFFFF</color>
 
 
     <!--for random color generator -->

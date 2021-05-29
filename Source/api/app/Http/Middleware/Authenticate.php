@@ -39,13 +39,13 @@ class Authenticate
     {
         if ($this->auth->guard($guard)->guest()) {
             // return response('Unauthorized.', 401);
-            return response()->json(['message' => 'You are Unauthorized. Please login'], 401);
+            return response()->json(['message' => 'You are Unauthorized. Please login first!'], 401);
         }
 
         if($this->checkToken($request->header('Authorization'),$request)){
             return $next($request);
         }else{
-            return response()->json(['message' => 'You are Unauthorized. Please login'], 401);
+            return response()->json(['message' => 'You are Unauthorized. Please login first!'], 401);
         }
     }
 

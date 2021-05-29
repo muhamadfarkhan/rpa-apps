@@ -26,7 +26,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentInsetStartWithNavigation="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:subtitle="welcome to MaterialX"
+            app:subtitle="welcome to RPA The Chicken"
             app:subtitleTextAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             app:subtitleTextColor="@color/grey_10"
             app:title="Hi, Miller Wilson" />
@@ -141,35 +141,7 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                                android:id="@+id/profile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:clickable="true"
-                                android:tint="@android:color/white"
-                                app:backgroundTint="@color/light_green_500"
-                                app:elevation="0dp"
-                                app:fabSize="mini"
-                                app:rippleColor="@android:color/white"
-                                app:srcCompat="@drawable/ic_person" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="FRIENDS"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                                android:textColor="@color/grey_40" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btn_master_user"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -184,7 +156,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="GROUPS"
+                                android:text="DATA USER"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
                         </LinearLayout>
@@ -197,6 +169,7 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btn_master_rpa"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -211,7 +184,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="NEARABY"
+                                android:text="DATA RPA"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
                         </LinearLayout>
@@ -224,6 +197,7 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btn_master_area"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -238,7 +212,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="MOMENT"
+                                android:text="DATA AREA"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
                         </LinearLayout>
@@ -262,12 +236,14 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
+                            <!-- indigo_300 -->
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btn_master_item"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
                                 android:tint="@android:color/white"
-                                app:backgroundTint="@color/indigo_300"
+                                app:backgroundTint="@color/blue_grey_100"
                                 app:elevation="0dp"
                                 app:fabSize="mini"
                                 app:rippleColor="@android:color/white"
@@ -277,7 +253,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="ALBUMS"
+                                android:text="MASTER ITEM"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -290,26 +266,30 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
+                            <!-- green_500 -->
+
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btn_trans_tonase"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
                                 android:tint="@android:color/white"
-                                app:backgroundTint="@color/green_500"
+                                app:backgroundTint="@color/blue_grey_100"
                                 app:elevation="0dp"
                                 app:fabSize="mini"
                                 app:rippleColor="@android:color/white"
-                                app:srcCompat="@drawable/ic_favorites" />
+                                app:srcCompat="@drawable/ic_show_chart" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="LIKES"
+                                android:text="TONASE"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
                         </LinearLayout>
 
+                        <!-- light_green_400 -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -318,25 +298,27 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btn_trans_production"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
                                 android:tint="@android:color/white"
-                                app:backgroundTint="@color/light_green_400"
+                                app:backgroundTint="@color/blue_grey_100"
                                 app:elevation="0dp"
                                 app:fabSize="mini"
                                 app:rippleColor="@android:color/white"
-                                app:srcCompat="@drawable/ic_subject" />
+                                app:srcCompat="@drawable/ic_schedule" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="ARTICLES"
+                                android:text="PRODUCTION"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
                         </LinearLayout>
 
+                        <!-- orange_300 -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -345,21 +327,22 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btn_trans_sales"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
                                 android:tint="@android:color/white"
-                                app:backgroundTint="@color/orange_300"
+                                app:backgroundTint="@color/blue_grey_100"
                                 app:elevation="0dp"
                                 app:fabSize="mini"
                                 app:rippleColor="@android:color/white"
-                                app:srcCompat="@drawable/ic_textsms" />
+                                app:srcCompat="@drawable/ic_shopping_cart" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="REVIEWS"
+                                android:text="PENJUALAN"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
                         </LinearLayout>
@@ -372,11 +355,13 @@
                         android:layout_height="@dimen/spacing_mlarge" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
+                        <!-- cyan_300 -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -389,7 +374,7 @@
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
                                 android:tint="@android:color/white"
-                                app:backgroundTint="@color/cyan_300"
+                                app:backgroundTint="@color/blue_grey_100"
                                 app:elevation="0dp"
                                 app:fabSize="mini"
                                 app:rippleColor="@android:color/white"
@@ -489,6 +474,7 @@
                     </LinearLayout>
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_mxlarge" />
 
@@ -529,7 +515,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$ 730"
+                            android:text="Rp 730,000.21,-"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/green_400"
                             android:textStyle="bold" />
@@ -537,6 +523,7 @@
                     </LinearLayout>
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_rounded_orange"

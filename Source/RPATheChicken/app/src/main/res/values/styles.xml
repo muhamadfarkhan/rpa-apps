@@ -4,7 +4,9 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q"> false </item>
     </style>
 
-    <style name="AppTheme.Material" parent="BaseTheme.Material" />
+    <style name="AppTheme.Material" parent="BaseTheme.Material">
+        <item name="android:forceDarkAllowed" tools:targetApi="q"> false </item>
+    </style>
 
     <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
