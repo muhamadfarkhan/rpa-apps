@@ -17,9 +17,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".ui.admin.master.StoreItemActivity"
+            android:theme="@style/AppTheme.Material" />
+        <activity
             android:name=".ui.admin.master.StoreAreaActivity"
             android:theme="@style/AppTheme.Material"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.admin.master.StoreUserActivity"
             android:theme="@style/AppTheme.Material"

@@ -3,6 +3,7 @@ package com.rpathechicken.api
 class ApiEndPoint {
     companion object{
 
+        //private const val BASE = "http://api-rpa.farkhan.net/api"
         private const val BASE = "http://192.168.1.7:8000/api"
         //private const val BASE = "http://10.161.159.75:8000/api"
 
@@ -27,6 +28,11 @@ class ApiEndPoint {
         const val area_create = "$BASE/area/create"
         const val area_update = "$BASE/area/update"
         const val area_destroy = "$BASE/area/destroy"
+        const val item_list = "$BASE/items"
+        const val item_detail = "$BASE/item"
+        const val item_create = "$BASE/item/create"
+        const val item_update = "$BASE/item/update"
+        const val item_destroy = "$BASE/item/destroy"
 
     }
 }

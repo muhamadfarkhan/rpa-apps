@@ -11,6 +11,7 @@ import com.rpathechicken.R
 import com.rpathechicken.databinding.FragmentHomeBinding
 import com.rpathechicken.helpers.SessionManager
 import com.rpathechicken.ui.admin.master.MasterAreaActivity
+import com.rpathechicken.ui.admin.master.MasterItemActivity
 import com.rpathechicken.ui.admin.master.MasterRPAActivity
 import com.rpathechicken.ui.admin.master.MasterUserActivity
 
@@ -57,6 +58,9 @@ class HomeFragment : Fragment() {
         }
         binding.btnMasterArea.setOnClickListener {
             startActivity(Intent(context, MasterAreaActivity::class.java))
+        }
+        binding.btnMasterItem.setOnClickListener {
+            startActivity(Intent(context, MasterItemActivity::class.java))
         }
     }
 

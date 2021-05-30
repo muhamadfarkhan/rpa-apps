@@ -64,6 +64,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'Wrong username or password'], 401);
         }
 
+        // if (Hash::check($request->password, $user->password)) {
+        //     // Success
+        // }
+
         $user = new UserToken;
         $user->user_id = Auth::user()->id;
         $user->token = 'Bearer '.$token;

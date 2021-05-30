@@ -91,7 +91,6 @@ class StoreAreaActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
     private fun submitData() {
         binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
         binding.layoutProgress.textLoading.text = "Processing data"
@@ -208,7 +207,7 @@ class StoreAreaActivity : AppCompatActivity() {
                         )
                     binding.dropdownRPA.setAdapter(adapterRpa)
                     binding.dropdownRPA.setOnItemClickListener { adapterView, view, i, l ->
-                        Toast.makeText(applicationContext,rpaId[i], Toast.LENGTH_LONG).show()
+                        //Toast.makeText(applicationContext,rpaId[i], Toast.LENGTH_LONG).show()
                         rpaIdVal = rpaId[i]
                     }
                 }
