@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
@@ -17,12 +16,9 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.google.android.material.snackbar.Snackbar
 import com.rpathechicken.R
-import com.rpathechicken.adapter.AdapterListAnimation
 import com.rpathechicken.api.ApiEndPoint
 import com.rpathechicken.databinding.ActivityStoreUserBinding
 import com.rpathechicken.helpers.SessionManager
-import com.rpathechicken.model.User
-import com.rpathechicken.utils.ItemAnimation
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit

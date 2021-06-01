@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,7 @@ import com.rpathechicken.adapter.AdapterListAnimation
 import com.rpathechicken.api.ApiEndPoint
 import com.rpathechicken.databinding.ActivityMasterAreaBinding
 import com.rpathechicken.helpers.SessionManager
-import com.rpathechicken.model.User
+import com.rpathechicken.model.Default
 import com.rpathechicken.utils.ItemAnimation
 import okhttp3.OkHttpClient
 import org.json.JSONObject
@@ -33,7 +32,7 @@ class MasterAreaActivity : AppCompatActivity() {
     private lateinit var session: SessionManager
     private lateinit var recyclerViewUser: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
-    val items = ArrayList<User>()
+    val items = ArrayList<Default>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,17 +109,17 @@ class MasterAreaActivity : AppCompatActivity() {
                     for (i in 0 until user.length()) {
 
                         items.add(
-                            User(user.getJSONObject(i).getInt("id"),
+                            Default(user.getJSONObject(i).getInt("id"),
                                 user.getJSONObject(i).getString("name"),
                                 user.getJSONObject(i).getString("address") +
                                         " (RPA " + user.getJSONObject(i).getString("rpa_name") + ")"
-
+                                ,""
                             )
                         )
 
                     }
 
-                    mAdapter = AdapterListAnimation(applicationContext, items, animationType)
+                    mAdapter = AdapterListAnimation(applicationContext, items, animationType, false)
                     recyclerViewUser.adapter = mAdapter
 
                     mAdapter.setOnItemClickListener { _, obj, _ ->

@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.androidnetworking.AndroidNetworking
@@ -20,7 +18,7 @@ import com.rpathechicken.adapter.AdapterListAnimation
 import com.rpathechicken.api.ApiEndPoint
 import com.rpathechicken.databinding.ActivityStoreRpaBinding
 import com.rpathechicken.helpers.SessionManager
-import com.rpathechicken.model.User
+import com.rpathechicken.model.Default
 import com.rpathechicken.utils.ItemAnimation
 import okhttp3.OkHttpClient
 import org.json.JSONObject
@@ -34,7 +32,7 @@ class StoreRPAActivity : AppCompatActivity() {
     private lateinit var session: SessionManager
     private lateinit var recyclerViewUser: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
-    val items = ArrayList<User>()
+    val items = ArrayList<Default>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
 
     override fun onCreate(savedInstanceState: Bundle?) {

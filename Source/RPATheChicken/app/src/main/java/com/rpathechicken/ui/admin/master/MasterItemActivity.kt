@@ -18,10 +18,9 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.rpathechicken.R
 import com.rpathechicken.adapter.AdapterListAnimation
 import com.rpathechicken.api.ApiEndPoint
-import com.rpathechicken.databinding.ActivityMasterAreaBinding
 import com.rpathechicken.databinding.ActivityMasterItemBinding
 import com.rpathechicken.helpers.SessionManager
-import com.rpathechicken.model.User
+import com.rpathechicken.model.Default
 import com.rpathechicken.utils.ItemAnimation
 import okhttp3.OkHttpClient
 import org.json.JSONObject
@@ -33,7 +32,7 @@ class MasterItemActivity : AppCompatActivity() {
     private lateinit var session: SessionManager
     private lateinit var recyclerViewUser: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
-    val items = ArrayList<User>()
+    val items = ArrayList<Default>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,16 +108,16 @@ class MasterItemActivity : AppCompatActivity() {
                     for (i in 0 until datas.length()) {
 
                         items.add(
-                            User(datas.getJSONObject(i).getInt("id"),
+                            Default(datas.getJSONObject(i).getInt("id"),
                                 datas.getJSONObject(i).getString("name")+
                                         " ( " + datas.getJSONObject(i).getString("initial") + " )",
-                                datas.getJSONObject(i).getString("description")
+                                datas.getJSONObject(i).getString("description"),""
                             )
                         )
 
                     }
 
-                    mAdapter = AdapterListAnimation(applicationContext, items, animationType)
+                    mAdapter = AdapterListAnimation(applicationContext, items, animationType,false)
                     recyclerViewUser.adapter = mAdapter
 
                     mAdapter.setOnItemClickListener { _, obj, _ ->

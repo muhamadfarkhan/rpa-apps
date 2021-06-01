@@ -20,7 +20,7 @@ import com.rpathechicken.adapter.AdapterListAnimation
 import com.rpathechicken.api.ApiEndPoint
 import com.rpathechicken.databinding.ActivityMasterUserBinding
 import com.rpathechicken.helpers.SessionManager
-import com.rpathechicken.model.User
+import com.rpathechicken.model.Default
 import com.rpathechicken.utils.ItemAnimation
 import okhttp3.OkHttpClient
 import org.json.JSONObject
@@ -33,7 +33,7 @@ class MasterUserActivity : AppCompatActivity() {
     private lateinit var session: SessionManager
     private lateinit var recyclerViewUser: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
-    val items = ArrayList<User>()
+    val items = ArrayList<Default>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,14 +110,14 @@ class MasterUserActivity : AppCompatActivity() {
                     for (i in 0 until user.length()) {
 
                         items.add(
-                            User(user.getJSONObject(i).getInt("id"),
+                            Default(user.getJSONObject(i).getInt("id"),
                                 user.getJSONObject(i).getString("username"),
-                                user.getJSONObject(i).getString("email"))
+                                user.getJSONObject(i).getString("email"),"")
                         )
 
                     }
 
-                    mAdapter = AdapterListAnimation(applicationContext, items, animationType)
+                    mAdapter = AdapterListAnimation(applicationContext, items, animationType, false)
                     recyclerViewUser.adapter = mAdapter
 
                     mAdapter.setOnItemClickListener { _, obj, _ ->

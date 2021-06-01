@@ -3,7 +3,6 @@ package com.rpathechicken.adapter;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rpathechicken.R;
-import com.rpathechicken.model.User;
+import com.rpathechicken.model.Default;
 import com.rpathechicken.utils.ItemAnimation;
 
 import java.util.ArrayList;
@@ -20,19 +19,20 @@ import java.util.List;
 
 public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<User> items = new ArrayList<>();
+    private List<Default> items = new ArrayList<>();
 
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
     private OnItemDeleteListener mOnItemDestroyListener;
     private int animation_type = 0;
+    private boolean add_first = false;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, User obj, int position);
+        void onItemClick(View view, Default obj, int position);
     }
 
     public interface OnItemDeleteListener {
-        void onItemDelete(View view, User obj, int position);
+        void onItemDelete(View view, Default obj, int position);
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
@@ -43,10 +43,11 @@ public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.View
         this.mOnItemDestroyListener = mOnItemDestroyListener;
     }
 
-    public AdapterListAnimation(Context context, List<User> items, int animation_type) {
+    public AdapterListAnimation(Context context, List<Default> items, int animation_type, boolean add_first) {
         this.items = items;
         ctx = context;
         this.animation_type = animation_type;
+        this.add_first = add_first;
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
@@ -54,11 +55,13 @@ public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.View
         public TextView description;
         public View lyt_parent;
         public ImageView btn_destroy;
+        public TextView txt_add_first;
 
         public OriginalViewHolder(View v) {
             super(v);
             description = (TextView) v.findViewById(R.id.description);
             name = (TextView) v.findViewById(R.id.name);
+            txt_add_first = (TextView) v.findViewById(R.id.additional_first);
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
             btn_destroy = (ImageView) v.findViewById(R.id.btn_destroy);
         }
@@ -79,9 +82,15 @@ public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.View
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
 
-            User p = items.get(position);
-            view.name.setText(p.getUsername());
-            view.description.setText(p.getEmail());
+            Default p = items.get(position);
+
+            if(add_first){
+                view.txt_add_first.setVisibility(View.VISIBLE);
+                view.txt_add_first.setText(p.getAdditionalFirst());
+            }
+
+            view.name.setText(p.getName());
+            view.description.setText(p.getDescription());
             //Tools.displayImageRound(ctx, view.image, p.image);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override

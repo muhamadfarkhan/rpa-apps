@@ -16,10 +16,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.admin.transaction.TonaseDetailActivity"></activity>
         <activity
-            android:name=".ui.admin.transaction.TonaseHeaderActivity"
+            android:name=".ui.admin.transaction.TonaseDetailActivity"
             android:theme="@style/AppTheme.Material" />
+        <activity
+            android:name=".ui.admin.transaction.TonaseHeaderActivity"/>
         <activity
             android:name=".ui.admin.master.StoreItemActivity"
             android:theme="@style/AppTheme.Material" />

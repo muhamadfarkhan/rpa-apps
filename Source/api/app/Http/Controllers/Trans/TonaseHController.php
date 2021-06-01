@@ -27,7 +27,8 @@ class TonaseHController extends Controller
      */
     public function all()
     {
-         return response()->json(['tonase_headers' =>  TrHTonase::all()], 200);
+         return response()->json(['tonase_headers' =>  TrHTonase::orderBy('processed_at','desc')
+         ->all()], 200);
     }
 
     /**

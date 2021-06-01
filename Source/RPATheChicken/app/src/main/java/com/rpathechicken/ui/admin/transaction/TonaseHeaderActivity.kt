@@ -18,9 +18,9 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.rpathechicken.R
 import com.rpathechicken.adapter.AdapterListAnimation
 import com.rpathechicken.api.ApiEndPoint
-import com.rpathechicken.databinding.ActivityMasterRpaaBinding
+import com.rpathechicken.databinding.ActivityTonaseHeaderBinding
 import com.rpathechicken.helpers.SessionManager
-import com.rpathechicken.model.User
+import com.rpathechicken.model.Default
 import com.rpathechicken.ui.admin.master.StoreRPAActivity
 import com.rpathechicken.utils.ItemAnimation
 import okhttp3.OkHttpClient
@@ -29,18 +29,18 @@ import java.util.concurrent.TimeUnit
 
 class TonaseHeaderActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMasterRpaaBinding
+    private lateinit var binding: ActivityTonaseHeaderBinding
     private lateinit var session: SessionManager
     private lateinit var recyclerViewUser: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
-    val items = ArrayList<User>()
+    val items = ArrayList<Default>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         session = SessionManager(this)
 
-        binding = ActivityMasterRpaaBinding.inflate(layoutInflater)
+        binding = ActivityTonaseHeaderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initToolbar()
@@ -55,7 +55,7 @@ class TonaseHeaderActivity : AppCompatActivity() {
         recyclerViewUser.layoutManager = LinearLayoutManager(this)
         recyclerViewUser.setHasFixedSize(true)
 
-        binding.fabAddRpa.setOnClickListener {
+        binding.fabAddTonaseH.setOnClickListener {
             session.isCreate = true
             startActivity(Intent(this, StoreRPAActivity::class.java))
         }
@@ -112,17 +112,17 @@ class TonaseHeaderActivity : AppCompatActivity() {
                     for (i in 0 until user.length()) {
 
                         items.add(
-                            User(
+                            Default(
                                 user.getJSONObject(i).getInt("id"),
-                                user.getJSONObject(i).getString("processed_at") + " - " +
-                                        user.getJSONObject(i).getString("price"),
-                                user.getJSONObject(i).getString("plat_number")
+                                "Tanggal : " + user.getJSONObject(i).getString("processed_at"),
+                                "Harga : " + user.getJSONObject(i).getString("price"),
+                                "Plat Number : " + user.getJSONObject(i).getString("plat_number")
                             )
                         )
 
                     }
 
-                    mAdapter = AdapterListAnimation(applicationContext, items, animationType)
+                    mAdapter = AdapterListAnimation(applicationContext, items, animationType, true)
                     recyclerViewUser.adapter = mAdapter
 
                     mAdapter.setOnItemClickListener { _, obj, _ ->
