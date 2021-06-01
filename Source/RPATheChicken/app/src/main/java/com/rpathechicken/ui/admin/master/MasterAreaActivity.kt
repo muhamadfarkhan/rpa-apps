@@ -112,7 +112,7 @@ class MasterAreaActivity : AppCompatActivity() {
                             Default(user.getJSONObject(i).getInt("id"),
                                 user.getJSONObject(i).getString("name"),
                                 user.getJSONObject(i).getString("address") +
-                                        " (RPA " + user.getJSONObject(i).getString("rpa_name") + ")"
+                                        " (" + user.getJSONObject(i).getString("rpa_name") + ")"
                                 ,""
                             )
                         )
