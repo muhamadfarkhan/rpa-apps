@@ -57,7 +57,7 @@ class TonaseHeaderActivity : AppCompatActivity() {
 
         binding.fabAddTonaseH.setOnClickListener {
             session.isCreate = true
-            startActivity(Intent(this, StoreRPAActivity::class.java))
+            startActivity(Intent(this, StoreTonaseHeaderActivity::class.java))
         }
 
     }
