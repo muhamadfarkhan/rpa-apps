@@ -14,6 +14,7 @@ import com.rpathechicken.ui.admin.master.MasterAreaActivity
 import com.rpathechicken.ui.admin.master.MasterItemActivity
 import com.rpathechicken.ui.admin.master.MasterRPAActivity
 import com.rpathechicken.ui.admin.master.MasterUserActivity
+import com.rpathechicken.ui.admin.transaction.TonaseHeaderActivity
 
 class HomeFragment : Fragment() {
 
@@ -61,6 +62,9 @@ class HomeFragment : Fragment() {
         }
         binding.btnMasterItem.setOnClickListener {
             startActivity(Intent(context, MasterItemActivity::class.java))
+        }
+        binding.btnTransTonase.setOnClickListener {
+            startActivity(Intent(context, TonaseHeaderActivity::class.java))
         }
     }
 

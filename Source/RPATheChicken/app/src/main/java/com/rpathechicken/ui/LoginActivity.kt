@@ -113,6 +113,12 @@ class LoginActivity : AppCompatActivity() {
 
                     val error = errorBody.getString("message")
 
+                    var errMsg: String = if(error.isNullOrEmpty() || error.isBlank()){
+                        anError.errorDetail.toString()
+                    }else{
+                        error
+                    }
+
                     /*SweetAlertDialog(this@LoginActivity, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("Oops...")
                         .setContentText(error)
@@ -121,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
                     val alertDialog =
                         SweetAlertDialog(this@LoginActivity, SweetAlertDialog.SUCCESS_TYPE)
                     alertDialog.titleText = "Oops..."
-                    alertDialog.contentText = error
+                    alertDialog.contentText = errMsg
                     alertDialog.show()
 
                     val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button

@@ -3,8 +3,8 @@ package com.rpathechicken.api
 class ApiEndPoint {
     companion object{
 
-        //private const val BASE = "http://api-rpa.farkhan.net/api"
-        private const val BASE = "http://192.168.1.7:8000/api"
+        private const val BASE = "http://api-rpa.farkhan.net/api"
+        //private const val BASE = "http://192.168.1.7:8000/api"
         //private const val BASE = "http://10.161.159.75:8000/api"
 
         const val login = "$BASE/login"
@@ -33,6 +33,13 @@ class ApiEndPoint {
         const val item_create = "$BASE/item/create"
         const val item_update = "$BASE/item/update"
         const val item_destroy = "$BASE/item/destroy"
+
+        //transaction
+        const val tonase_header_list = "$BASE/tonase/header"
+        const val tonase_header_detail = "$BASE/tonase/header"
+        const val tonase_header_create = "$BASE/tonase/header/create"
+        const val tonase_header_update = "$BASE/tonase/header/update"
+        const val tonase_header_destroy = "$BASE/tonase/header/destroy"
 
     }
 }

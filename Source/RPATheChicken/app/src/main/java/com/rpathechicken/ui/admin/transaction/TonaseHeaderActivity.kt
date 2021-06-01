@@ -1,4 +1,4 @@
-package com.rpathechicken.ui.admin.master
+package com.rpathechicken.ui.admin.transaction
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -18,18 +18,18 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.rpathechicken.R
 import com.rpathechicken.adapter.AdapterListAnimation
 import com.rpathechicken.api.ApiEndPoint
-import com.rpathechicken.databinding.ActivityMasterAreaBinding
-import com.rpathechicken.databinding.ActivityMasterItemBinding
+import com.rpathechicken.databinding.ActivityMasterRpaaBinding
 import com.rpathechicken.helpers.SessionManager
 import com.rpathechicken.model.User
+import com.rpathechicken.ui.admin.master.StoreRPAActivity
 import com.rpathechicken.utils.ItemAnimation
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
-class MasterItemActivity : AppCompatActivity() {
+class TonaseHeaderActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMasterItemBinding
+    private lateinit var binding: ActivityMasterRpaaBinding
     private lateinit var session: SessionManager
     private lateinit var recyclerViewUser: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
@@ -40,25 +40,24 @@ class MasterItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         session = SessionManager(this)
 
-        binding = ActivityMasterItemBinding.inflate(layoutInflater)
+        binding = ActivityMasterRpaaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initToolbar()
         initComponent()
-        getListItem()
+        getListTonaseH()
     }
 
     private fun initComponent() {
 
-        binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
 
         recyclerViewUser = binding.recyclerView
         recyclerViewUser.layoutManager = LinearLayoutManager(this)
         recyclerViewUser.setHasFixedSize(true)
 
-        binding.fabAddArea.setOnClickListener {
+        binding.fabAddRpa.setOnClickListener {
             session.isCreate = true
-            startActivity(Intent(this, StoreItemActivity::class.java))
+            startActivity(Intent(this, StoreRPAActivity::class.java))
         }
 
     }
@@ -66,10 +65,9 @@ class MasterItemActivity : AppCompatActivity() {
     private fun initToolbar() {
 
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.title = "Master Item"
+        binding.toolbar.title = "Data Tonase"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -81,14 +79,19 @@ class MasterItemActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getListItem() {
+
+    private fun getListTonaseH() {
+
+        binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
+        binding.layoutProgress.textLoading.text = getString(R.string.getting_data)
+
         val okHttpClient = OkHttpClient().newBuilder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .writeTimeout(120, TimeUnit.SECONDS)
             .build()
 
-        AndroidNetworking.get(ApiEndPoint.item_list)
+        AndroidNetworking.get(ApiEndPoint.tonase_header_list)
             .addHeaders("Authorization", session.token)
             .setPriority(Priority.MEDIUM)
             .setOkHttpClient(okHttpClient)
@@ -98,21 +101,22 @@ class MasterItemActivity : AppCompatActivity() {
 
                     binding.layoutProgress.progressOverlay.visibility = View.GONE
 
-                    Log.d("item-data", response!!.toString())
+                    Log.d("tonase-data", response!!.toString())
 
-                    val datas = response.getJSONArray("items")
-
-                    Log.d("item-data", datas.toString())
+                    val user = response.getJSONArray("tonase_headers")
 
                     items.clear()
 
-                    for (i in 0 until datas.length()) {
+                    Log.d("tonase-data", user.toString())
+
+                    for (i in 0 until user.length()) {
 
                         items.add(
-                            User(datas.getJSONObject(i).getInt("id"),
-                                datas.getJSONObject(i).getString("name")+
-                                        " ( " + datas.getJSONObject(i).getString("initial") + " )",
-                                datas.getJSONObject(i).getString("description")
+                            User(
+                                user.getJSONObject(i).getInt("id"),
+                                user.getJSONObject(i).getString("processed_at") + " - " +
+                                        user.getJSONObject(i).getString("price"),
+                                user.getJSONObject(i).getString("plat_number")
                             )
                         )
 
@@ -125,7 +129,7 @@ class MasterItemActivity : AppCompatActivity() {
                         //Toast.makeText(applicationContext,obj.username, Toast.LENGTH_LONG).show()
                         session.idEditData = obj.id
                         session.isCreate = false
-                        startActivity(Intent(applicationContext, StoreItemActivity::class.java))
+                        startActivity(Intent(applicationContext, TonaseDetailActivity::class.java))
                     }
 
                     mAdapter.setmOnItemDestroyListener { _, obj, _ ->
@@ -138,17 +142,17 @@ class MasterItemActivity : AppCompatActivity() {
 
                     binding.layoutProgress.progressOverlay.visibility = View.GONE
 
-                    Log.d("item-msg", anError!!.message.toString())
-                    Log.d("item-detail", anError.errorDetail)
-                    Log.d("item-body",anError.errorBody)
-                    Log.d("item-code", anError.errorCode.toString())
+                    Log.d("tonase-msg", anError!!.message.toString())
+                    Log.d("tonase-detail", anError.errorDetail)
+                    Log.d("tonase-body", anError.errorBody)
+                    Log.d("tonase-code", anError.errorCode.toString())
 
                     val errorBody = JSONObject(anError.errorBody)
 
                     val error = errorBody.getString("message")
 
                     val alertDialog =
-                        SweetAlertDialog(this@MasterItemActivity, SweetAlertDialog.SUCCESS_TYPE)
+                        SweetAlertDialog(this@TonaseHeaderActivity, SweetAlertDialog.SUCCESS_TYPE)
                     alertDialog.titleText = "Oops..."
                     alertDialog.contentText = error
                     alertDialog.show()
@@ -156,7 +160,7 @@ class MasterItemActivity : AppCompatActivity() {
                     val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
                     btn.setBackgroundColor(
                         ContextCompat.getColor(
-                            this@MasterItemActivity,
+                            this@TonaseHeaderActivity,
                             R.color.colorPrimaryLight
                         )
                     )
@@ -171,8 +175,10 @@ class MasterItemActivity : AppCompatActivity() {
             .setTitleText("Are you sure?")
             .setContentText("Won't be able to recover this file!")
             .setConfirmText("Yes,delete it!")
-            .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
-                deleteItem(id) }
+            .setConfirmClickListener { sDialog ->
+                sDialog.dismissWithAnimation()
+                deleteRPA(id)
+            }
             .setCancelButton(
                 "Cancel"
             ) { sDialog -> sDialog.dismissWithAnimation() }
@@ -180,7 +186,7 @@ class MasterItemActivity : AppCompatActivity() {
     }
 
 
-    private fun deleteItem(id: Int) {
+    private fun deleteRPA(id: Int) {
 
         binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
         binding.layoutProgress.textLoading.text = getString(R.string.delete_data)
@@ -191,7 +197,7 @@ class MasterItemActivity : AppCompatActivity() {
             .writeTimeout(120, TimeUnit.SECONDS)
             .build()
 
-        AndroidNetworking.post(ApiEndPoint.item_destroy)
+        AndroidNetworking.post(ApiEndPoint.tonase_header_destroy)
             .addHeaders("Authorization", session.token)
             .addBodyParameter("id", id.toString())
             .setPriority(Priority.MEDIUM)
@@ -202,14 +208,15 @@ class MasterItemActivity : AppCompatActivity() {
 
                     binding.layoutProgress.progressOverlay.visibility = View.GONE
 
-                    Log.d("item-", response!!.toString())
+                    Log.d("tonase-detail", response!!.toString())
 
-                    val alertDialog = SweetAlertDialog(this@MasterItemActivity, SweetAlertDialog.SUCCESS_TYPE)
+                    val alertDialog =
+                        SweetAlertDialog(this@TonaseHeaderActivity, SweetAlertDialog.SUCCESS_TYPE)
                     alertDialog.titleText = "Well Done..."
                     alertDialog.contentText = response.getString("message")
                     alertDialog.show()
 
-                    getListItem()
+                    getListTonaseH()
 
                 }
 
@@ -217,17 +224,17 @@ class MasterItemActivity : AppCompatActivity() {
 
                     binding.layoutProgress.progressOverlay.visibility = View.GONE
 
-                    Log.d("item-error", anError!!.message.toString())
-                    Log.d("item-error", anError.errorDetail)
-                    Log.d("item-error",anError.errorBody)
-                    Log.d("item-error", anError.errorCode.toString())
+                    Log.d("tonase-msg", anError!!.message.toString())
+                    Log.d("tonase-detail", anError.errorDetail)
+                    Log.d("tonase-body", anError.errorBody)
+                    Log.d("tonase-code", anError.errorCode.toString())
 
                     val errorBody = JSONObject(anError.errorBody)
 
                     val error = errorBody.getString("message")
 
                     val alertDialog =
-                        SweetAlertDialog(this@MasterItemActivity, SweetAlertDialog.ERROR_TYPE)
+                        SweetAlertDialog(this@TonaseHeaderActivity, SweetAlertDialog.ERROR_TYPE)
                     alertDialog.titleText = "Oops..."
                     alertDialog.contentText = error
                     alertDialog.show()
@@ -235,7 +242,7 @@ class MasterItemActivity : AppCompatActivity() {
                     val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
                     btn.setBackgroundColor(
                         ContextCompat.getColor(
-                            this@MasterItemActivity,
+                            this@TonaseHeaderActivity,
                             R.color.colorPrimaryLight
                         )
                     )
@@ -247,7 +254,6 @@ class MasterItemActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        getListItem()
+        getListTonaseH()
     }
-
 }
