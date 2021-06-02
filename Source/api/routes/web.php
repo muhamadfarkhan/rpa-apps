@@ -75,5 +75,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('tonase/detail/update', 'Trans\TonaseDController@update');
     $router->post('tonase/detail/destroy', 'Trans\TonaseDController@destroy');
 
+    $router->get('production/{id}', 'Trans\ProductionController@detail');
+
+    $router->post('production/create', 'Trans\ProductionController@store');
+    $router->get('production/{id}', 'Trans\ProductionController@detail');
+    $router->post('production/update', 'Trans\ProductionController@update');
+    $router->post('production/destroy', 'Trans\ProductionController@destroy');
+
 });
  

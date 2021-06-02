@@ -41,5 +41,9 @@ class ApiEndPoint {
         const val tonase_header_update = "$BASE/tonase/header/update"
         const val tonase_header_destroy = "$BASE/tonase/header/destroy"
 
+        const val tonase_detail_create = "$BASE/tonase/detail/create"
+        const val tonase_detail_update = "$BASE/tonase/detail/update"
+        const val tonase_detail_destroy = "$BASE/tonase/detail/destroy"
+
     }
 }

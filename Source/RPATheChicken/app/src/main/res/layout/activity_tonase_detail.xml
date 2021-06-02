@@ -134,6 +134,43 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_5" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Total Ekor">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_tonase_tot_ekor"
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:focusable="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Total Kilogram">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_tonase_tot_kilo"
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:focusable="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -160,9 +197,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:layout_marginTop="@dimen/actionBarSize"
         android:scrollingCache="true" />
-
 
     <include
         layout="@layout/include_progress_overlay"

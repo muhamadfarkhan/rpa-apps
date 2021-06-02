@@ -12,4 +12,9 @@ class TrHTonase extends Model
     {
         return $this->hasMany('App\Models\TrDTonase', 'tonase_id' , 'id');
     }
+
+    public function production()
+    {
+        return $this->hasMany('App\Models\TrProduction', 'tonase_id' , 'id');
+    }
 }

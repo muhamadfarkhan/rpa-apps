@@ -82,7 +82,8 @@ class TonaseHController extends Controller
         $this->validate($request, [
             'plat_number' => 'required|string',
             'rpa_id' => 'required|integer',
-            'price' => 'required|integer'
+            'price' => 'required|integer',
+            'tonase_date' => 'required'
         ]);
 
         try {

@@ -1,13 +1,19 @@
 package com.rpathechicken.ui.admin.transaction
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,24 +52,127 @@ class TonaseDetailActivity : AppCompatActivity() {
 
         initToolbar()
         initComponent()
-        getListTonaseD(session.idEditData)
     }
 
 
     private fun initComponent() {
-
 
         recyclerViewUser = binding.recyclerView
         recyclerViewUser.layoutManager = LinearLayoutManager(this)
         recyclerViewUser.setHasFixedSize(true)
 
         binding.fabAddTonaseD.setOnClickListener {
-            session.isCreate = true
-            startActivity(Intent(this, StoreTonaseHeaderActivity::class.java))
+            openDialogInputTonaseD()
         }
 
+        getListTonaseD(session.idEditData)
         getDataTonaseH(session.idEditData)
+    }
 
+    private fun openDialogInputTonaseD() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+
+        dialog.setContentView(R.layout.dialog_tonase_detail)
+        dialog.setCancelable(true)
+
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+
+        val eTonKg = dialog.findViewById<View>(R.id.et_tonase_d_kilo) as EditText
+        val eTonEk = dialog.findViewById<View>(R.id.et_tonase_d_ekor) as EditText
+        (dialog.findViewById<View>(R.id.bt_cancel) as AppCompatButton).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        (dialog.findViewById<View>(R.id.bt_submit) as AppCompatButton).setOnClickListener {
+
+            val kilo = eTonKg.text.toString().trim { it <= ' ' }
+            val ekor = eTonEk.text.toString().trim { it <= ' ' }
+
+            if (kilo.isEmpty() or ekor.isEmpty()) {
+                Toast.makeText(
+                    applicationContext,
+                    "Please fill the blank",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                dialog.dismiss()
+                storeTonaseD(kilo,ekor)
+            }
+
+        }
+
+        dialog.show()
+        dialog.window!!.attributes = lp
+    }
+
+    private fun storeTonaseD(kilo: String, ekor: String) {
+        binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
+        binding.layoutProgress.textLoading.text = "Processing data"
+
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.post(ApiEndPoint.tonase_detail_create)
+            .addHeaders("Authorization", session.token)
+            .addBodyParameter("kilogram", kilo)
+            .addBodyParameter("ekor", ekor)
+            .addBodyParameter("tonase_id", session.idEditData.toString())
+            .setPriority(Priority.MEDIUM)
+            .setOkHttpClient(okHttpClient)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-rpa-detail", response!!.toString())
+
+                    val alertDialog = SweetAlertDialog(this@TonaseDetailActivity, SweetAlertDialog.SUCCESS_TYPE)
+                    alertDialog.titleText = "Well Done..."
+                    alertDialog.contentText = response.getString("message")
+                    alertDialog.show()
+
+                    getListTonaseD(session.idEditData)
+                    getDataTonaseH(session.idEditData)
+                }
+
+                override fun onError(anError: ANError?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-msg", anError!!.message.toString())
+                    Log.d("tonase-detail", anError.errorDetail)
+                    Log.d("tonase-body",anError.errorBody)
+                    Log.d("tonase-code", anError.errorCode.toString())
+
+                    val errorBody = JSONObject(anError.errorBody)
+
+                    val error = errorBody.getString("message")
+
+                    val alertDialog =
+                        SweetAlertDialog(this@TonaseDetailActivity, SweetAlertDialog.ERROR_TYPE)
+                    alertDialog.titleText = "Oops..."
+                    alertDialog.contentText = error
+                    alertDialog.show()
+
+                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
+                    btn.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this@TonaseDetailActivity,
+                            R.color.colorPrimaryLight
+                        )
+                    )
+
+                }
+
+            })
     }
 
     private fun initToolbar() {
@@ -201,7 +310,7 @@ class TonaseDetailActivity : AppCompatActivity() {
             .writeTimeout(120, TimeUnit.SECONDS)
             .build()
 
-        AndroidNetworking.post(ApiEndPoint.tonase_header_destroy)
+        AndroidNetworking.post(ApiEndPoint.tonase_detail_destroy)
             .addHeaders("Authorization", session.token)
             .addBodyParameter("id", id.toString())
             .setPriority(Priority.MEDIUM)
@@ -221,6 +330,7 @@ class TonaseDetailActivity : AppCompatActivity() {
                     alertDialog.show()
 
                     getListTonaseD(session.idEditData)
+                    getDataTonaseH(session.idEditData)
 
                 }
 
@@ -286,6 +396,11 @@ class TonaseDetailActivity : AppCompatActivity() {
                         .getString("plat_number"))
                     binding.etTonasePrice.setText(response.getJSONObject("tonase_header")
                         .getString("price"))
+
+                    binding.etTonaseTotKilo.setText(response.getJSONObject("tonase_header")
+                        .getString("sum_kilo"))
+                    binding.etTonaseTotEkor.setText(response.getJSONObject("tonase_header")
+                        .getString("sum_ekor"))
 
                     /*rpaIdVal = response.getJSONObject("area").getString("rpa_id")
                     binding.dropdownRPA.setText(response.getJSONObject("area").getString("rpa_name")
