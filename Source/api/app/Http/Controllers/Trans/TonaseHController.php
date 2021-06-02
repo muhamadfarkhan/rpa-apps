@@ -89,7 +89,7 @@ class TonaseHController extends Controller
 
             $tonase = new TrHTonase;
             $tonase->plat_number = $request->input('plat_number');
-            $tonase->processed_at = date('Y-m-d');
+            $tonase->processed_at = $request->input('tonase_date');//date('Y-m-d');
             $tonase->rpa_id = (int) $request->input('rpa_id');
             $tonase->price = (int) $request->input('price');
             $tonase->user_id = Auth::user()->id;

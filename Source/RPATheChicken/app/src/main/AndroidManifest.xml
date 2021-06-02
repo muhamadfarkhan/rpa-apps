@@ -19,7 +19,9 @@
         <activity
             android:name=".ui.admin.transaction.StoreTonaseHeaderActivity"
             android:theme="@style/AppTheme.Material" />
-        <activity android:name=".ui.admin.transaction.TonaseDetailActivity" />
+        <activity
+            android:name=".ui.admin.transaction.TonaseDetailActivity"
+            android:theme="@style/AppTheme.Material" />
         <activity android:name=".ui.admin.transaction.TonaseHeaderActivity" />
         <activity
             android:name=".ui.admin.master.StoreItemActivity"

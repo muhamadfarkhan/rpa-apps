@@ -1,5 +1,6 @@
 package com.rpathechicken.ui.admin.transaction
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -60,6 +61,8 @@ class TonaseDetailActivity : AppCompatActivity() {
             session.isCreate = true
             startActivity(Intent(this, StoreTonaseHeaderActivity::class.java))
         }
+
+        getDataTonaseH(session.idEditData)
 
     }
 
@@ -229,6 +232,76 @@ class TonaseDetailActivity : AppCompatActivity() {
                     Log.d("tonase-detail", anError.errorDetail)
                     Log.d("tonase-body", anError.errorBody)
                     Log.d("tonase-code", anError.errorCode.toString())
+
+                    val errorBody = JSONObject(anError.errorBody)
+
+                    val error = errorBody.getString("message")
+
+                    val alertDialog =
+                        SweetAlertDialog(this@TonaseDetailActivity, SweetAlertDialog.ERROR_TYPE)
+                    alertDialog.titleText = "Oops..."
+                    alertDialog.contentText = error
+                    alertDialog.show()
+
+                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
+                    btn.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this@TonaseDetailActivity,
+                            R.color.colorPrimaryLight
+                        )
+                    )
+
+                }
+
+            })
+    }
+
+
+    private fun getDataTonaseH(idEditData: Int) {
+        binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
+        binding.layoutProgress.textLoading.text = "Getting detail data"
+
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.get(ApiEndPoint.tonase_header_detail+"/{id}")
+            .addHeaders("Authorization", session.token)
+            .addPathParameter("id",idEditData.toString())
+            .setPriority(Priority.MEDIUM)
+            .setOkHttpClient(okHttpClient)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(response: JSONObject?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+                    Log.d("tonase-detail", response!!.toString())
+
+                    binding.etTonaseDate.setText(response.getJSONObject("tonase_header")
+                        .getString("processed_at"))
+                    binding.etTonasePlatNo.setText(response.getJSONObject("tonase_header")
+                        .getString("plat_number"))
+                    binding.etTonasePrice.setText(response.getJSONObject("tonase_header")
+                        .getString("price"))
+
+                    /*rpaIdVal = response.getJSONObject("area").getString("rpa_id")
+                    binding.dropdownRPA.setText(response.getJSONObject("area").getString("rpa_name")
+                            + "-" + response.getJSONObject("area").getString("rpa_address"))
+
+                    populateRPA()*/
+                }
+
+                override fun onError(anError: ANError?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-rpa-detail", anError!!.message.toString())
+                    Log.d("tonase-rpa-detail", anError.errorDetail)
+                    Log.d("tonase-rpa-detail",anError.errorBody)
+                    Log.d("tonase-rpa-detail", anError.errorCode.toString())
 
                     val errorBody = JSONObject(anError.errorBody)
 
