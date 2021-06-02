@@ -46,6 +46,8 @@ class TonaseHController extends Controller
             $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
             $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
 
+            $tonaseDetail['kilogram'] = $tonaseDetail->kilogram.' Kg';
+
             return response()->json(['tonase_header' => $tonase, 'tonase_details' => $tonaseDetail], 200);
 
         } catch (\Exception $e) {
