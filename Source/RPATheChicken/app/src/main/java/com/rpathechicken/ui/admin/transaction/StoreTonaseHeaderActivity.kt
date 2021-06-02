@@ -136,6 +136,7 @@ class StoreTonaseHeaderActivity : AppCompatActivity() {
             .addBodyParameter("tonase_date", binding.etTonaseDate.text.toString())
             .addBodyParameter("plat_number", binding.etTonasePlatNo.text.toString())
             .addBodyParameter("rpa_id", rpaIdVal)
+            .addBodyParameter("price", binding.etTonasePrice.text.toString())
             .setPriority(Priority.MEDIUM)
             .setOkHttpClient(okHttpClient)
             .build()

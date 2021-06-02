@@ -81,7 +81,8 @@ class TonaseHController extends Controller
         //validate incoming request 
         $this->validate($request, [
             'plat_number' => 'required|string',
-            'rpa_id' => 'required|integer'
+            'rpa_id' => 'required|integer',
+            'price' => 'required|integer'
         ]);
 
         try {
@@ -90,6 +91,7 @@ class TonaseHController extends Controller
             $tonase->plat_number = $request->input('plat_number');
             $tonase->processed_at = date('Y-m-d');
             $tonase->rpa_id = (int) $request->input('rpa_id');
+            $tonase->price = (int) $request->input('price');
             $tonase->user_id = Auth::user()->id;
             
             $tonase->save();
