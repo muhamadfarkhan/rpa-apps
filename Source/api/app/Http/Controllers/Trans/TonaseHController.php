@@ -46,9 +46,11 @@ class TonaseHController extends Controller
             $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
             $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
 
-            foreach($tonaseDetail as $detail){
-                $detail['kilogram'] = $detail->kilogram.' Kg';
-                $detail['ekor'] = $detail->ekor.' Ekor';
+            // $detail = array();
+            foreach($tonaseDetail as $row){
+                $detail[] = $row;
+                $row->kilogram = $row->kilogram.' Kg';
+                $row->ekor = $row->ekor.' Ekor';
             }
 
             // $tonaseDetail['kilogram'] = $tonaseDetail->kilogram.' Kg';
