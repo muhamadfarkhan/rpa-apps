@@ -100,7 +100,7 @@ class TonaseHController extends Controller
 
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'Create header tonase Failed!', 'error' => $e], 409);
+            return response()->json(['message' => 'Create header tonase Failed! '. $e, 'error' => $e], 409);
         }
 
     }
