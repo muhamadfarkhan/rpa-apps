@@ -47,19 +47,19 @@ class TonaseHController extends Controller
         try {
             $tonase = TrHTonase::findOrFail($id);
 
-            $tonaseDetail = TrHTonase::findOrFail($id)->detail;
+            $detail = array();
+            if(!empty(TrHTonase::findOrFail($id)->detail)){
+                $tonaseDetail = TrHTonase::findOrFail($id)->detail;
 
-            $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
-            $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
-
-            // $detail = array();
-            foreach($tonaseDetail as $row){
-                $detail[] = $row;
-                $row->kilogram = $row->kilogram.' Kg';
-                $row->ekor = $row->ekor.' Ekor';
+                $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
+                $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
+                
+                foreach($tonaseDetail as $row){
+                    $detail[] = $row;
+                    $row->kilogram = $row->kilogram.' Kg';
+                    $row->ekor = $row->ekor.' Ekor';
+                }
             }
-
-            // $tonaseDetail['kilogram'] = $tonaseDetail->kilogram.' Kg';
 
             return response()->json(['tonase_header' => $tonase, 'tonase_details' => $detail], 200);
 
