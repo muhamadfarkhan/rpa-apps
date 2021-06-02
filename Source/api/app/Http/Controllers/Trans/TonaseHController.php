@@ -90,7 +90,6 @@ class TonaseHController extends Controller
             $tonase->plat_number = $request->input('plat_number');
             $tonase->processed_at = date('Y-m-d');
             $tonase->rpa_id = (int) $request->input('rpa_id');
-            $tonase->tonase = 0.00;
             $tonase->user_id = Auth::user()->id;
             
             $tonase->save();
