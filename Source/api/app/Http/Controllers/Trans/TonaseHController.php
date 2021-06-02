@@ -65,7 +65,7 @@ class TonaseHController extends Controller
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Tonase not found!', 'error' => $e], 404);
+            return response()->json(['message' => 'Tonase not found! ' . $e, 'error' => $e], 404);
         }
 
     }
