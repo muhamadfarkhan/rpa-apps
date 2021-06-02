@@ -27,8 +27,14 @@ class TonaseHController extends Controller
      */
     public function all()
     {
-         return response()->json(['tonase_headers' =>  TrHTonase::orderBy('processed_at','desc')
-         ->get()], 200);
+        $tonase = TrHTonase::orderBy('processed_at','desc')->get();
+
+        foreach($tonase as $row){
+            $data[] = $row;
+            $row->price = number_format($row->price);
+        }
+        
+        return response()->json(['tonase_headers' => $data ], 200);
     }
 
     /**

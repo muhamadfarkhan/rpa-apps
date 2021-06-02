@@ -115,8 +115,8 @@ class TonaseDetailActivity : AppCompatActivity() {
                         items.add(
                             Default(
                                 detail.getJSONObject(i).getInt("id"),
-                                detail.getJSONObject(i).getString("kilogram") + " kilogram",
-                                detail.getJSONObject(i).getString("ekor") + " ekor",
+                                detail.getJSONObject(i).getString("kilogram"),
+                                detail.getJSONObject(i).getString("ekor"),
                                 ""
                             )
                         )
