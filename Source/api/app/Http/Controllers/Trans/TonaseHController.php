@@ -47,12 +47,13 @@ class TonaseHController extends Controller
             $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
 
             foreach($tonaseDetail as $detail){
-                $tonaseDetail['kilogram'] = 'test';
+                $detail['kilogram'] = $detail->kilogram.' Kg';
+                $detail['ekor'] = $detail->ekor.' Ekor';
             }
 
             // $tonaseDetail['kilogram'] = $tonaseDetail->kilogram.' Kg';
 
-            return response()->json(['tonase_header' => $tonase, 'tonase_details' => $tonaseDetail], 200);
+            return response()->json(['tonase_header' => $tonase, 'tonase_details' => $detail], 200);
 
         } catch (\Exception $e) {
 
