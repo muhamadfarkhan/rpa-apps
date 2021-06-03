@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.URLUtil;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.core.widget.NestedScrollView;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Tools {
 
@@ -437,5 +440,35 @@ public class Tools {
             }
             return url;
         }
+    }
+    
+    public static void showError(Context ctx, String msg){
+        SweetAlertDialog sw = new SweetAlertDialog(ctx, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Error")
+                .setContentText(msg);
+        sw.show();
+
+        Button btn = sw.findViewById(R.id.confirm_button);
+        btn.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimaryLight));
+    }
+
+    public static void showInfo(Context ctx, String msg){
+        SweetAlertDialog sw = new SweetAlertDialog(ctx, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Info")
+                .setContentText(msg);
+        sw.show();
+
+        Button btn = sw.findViewById(R.id.confirm_button);
+        btn.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimaryLight));
+    }
+
+    public static void showSuccess(Context ctx, String msg){
+        SweetAlertDialog sw = new SweetAlertDialog(ctx, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Well done...")
+                .setContentText(msg);
+        sw.show();
+
+        Button btn = sw.findViewById(R.id.confirm_button);
+        btn.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimaryLight));
     }
 }

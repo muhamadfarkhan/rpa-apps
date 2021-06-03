@@ -42,7 +42,6 @@ class TonaseDetailActivity : AppCompatActivity() {
     val items = ArrayList<Default>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         session = SessionManager(this)

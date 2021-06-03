@@ -45,5 +45,11 @@ class ApiEndPoint {
         const val tonase_detail_update = "$BASE/tonase/detail/update"
         const val tonase_detail_destroy = "$BASE/tonase/detail/destroy"
 
+        const val production_list = "$BASE/tonase/header"
+        const val production_detail = "$BASE/production"
+        const val production_create = "$BASE/production/create"
+        const val production_update = "$BASE/production/update"
+        const val production_destroy = "$BASE/production/destroy"
+
     }
 }

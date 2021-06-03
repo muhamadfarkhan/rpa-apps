@@ -48,7 +48,6 @@ class ProductionController extends Controller
                 $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
                 $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
                 
-                
                 foreach($production as $row){
                     $detail[] = $row;
                 }

@@ -17,4 +17,9 @@ class TrHTonase extends Model
     {
         return $this->hasMany('App\Models\TrProduction', 'tonase_id' , 'id');
     }
+
+    public function rpa()
+    {
+        return $this->hasOne('App\Models\MRpa', 'id' , 'rpa_id');
+    }
 }

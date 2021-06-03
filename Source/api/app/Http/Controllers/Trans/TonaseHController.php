@@ -27,11 +27,12 @@ class TonaseHController extends Controller
      */
     public function all()
     {
-        $tonase = TrHTonase::orderBy('processed_at','desc')->get();
+        $tonase = TrHTonase::orderBy('processed_at','desc')->rpa()->get();
 
         foreach($tonase as $row){
             $data[] = $row;
             $row->price = number_format($row->price);
+            $row->rpa_name = $row->rpa->name;
         }
         
         return response()->json(['tonase_headers' => $data ], 200);
@@ -53,6 +54,7 @@ class TonaseHController extends Controller
 
                 $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
                 $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
+                $tonase['rpa_name'] = $tonase->rpa->name;
                 
                 foreach($tonaseDetail as $row){
                     $detail[] = $row;
