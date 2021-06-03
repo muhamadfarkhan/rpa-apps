@@ -27,7 +27,7 @@ class TonaseHController extends Controller
      */
     public function all()
     {
-        $tonase = TrHTonase::orderBy('processed_at','desc')->rpa()->get();
+        $tonase = TrHTonase::orderBy('processed_at','desc')->get();
 
         foreach($tonase as $row){
             $data[] = $row;
