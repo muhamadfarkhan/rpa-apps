@@ -90,25 +90,41 @@ class TonaseHController extends Controller
             'tonase_date' => 'required'
         ]);
 
-        try {
+        if($this->checkDuplicateTOnase($request->input('tonase_date'),$request->input('rpa_id'))){
 
-            $tonase = new TrHTonase;
-            $tonase->plat_number = $request->input('plat_number');
-            $tonase->processed_at = $request->input('tonase_date');//date('Y-m-d');
-            $tonase->rpa_id = (int) $request->input('rpa_id');
-            $tonase->price = (int) $request->input('price');
-            $tonase->user_id = Auth::user()->id;
-            
-            $tonase->save();
+            try {
 
-            //return successful response
-            return response()->json(['tonase' => $tonase, 'message' => 'Successfully created'], 201);
+                $tonase = new TrHTonase;
+                $tonase->plat_number = $request->input('plat_number');
+                $tonase->processed_at = $request->input('tonase_date');//date('Y-m-d');
+                $tonase->rpa_id = (int) $request->input('rpa_id');
+                $tonase->price = (int) $request->input('price');
+                $tonase->user_id = Auth::user()->id;
+                
+                $tonase->save();
 
-        } catch (\Exception $e) {
-            //return error message
-            return response()->json(['message' => 'Create header tonase Failed! '. $e, 'error' => $e], 409);
+                //return successful response
+                return response()->json(['tonase' => $tonase, 'message' => 'Successfully created'], 201);
+
+            } catch (\Exception $e) {
+                //return error message
+                return response()->json(['message' => 'Create header tonase Failed! '. $e, 'error' => $e], 409);
+            }
+
+        }else{
+            return response()->json(['message' => 'Tonase tersebut telah diproses. Mohon check kembali.'], 409);
         }
 
+    }
+
+    private function checkDuplicateTOnase($date,$rpa){
+        $check = TrHTonase::where('processed_at',$date)->where('rpa_id',$rpa)->first();
+
+        if(empty($check)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**

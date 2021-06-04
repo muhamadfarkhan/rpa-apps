@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
             startActivity(Intent(context, TonaseHeaderActivity::class.java))
         }
         binding.btnTransProduction.setOnClickListener {
-            startActivity(Intent(context, ProductionActivity::class.java))
+            //startActivity(Intent(context, ProductionActivity::class.java))
         }
     }
 

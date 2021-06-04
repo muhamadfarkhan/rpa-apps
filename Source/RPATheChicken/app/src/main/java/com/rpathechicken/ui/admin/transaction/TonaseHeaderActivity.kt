@@ -17,12 +17,15 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.rpathechicken.R
 import com.rpathechicken.adapter.AdapterListAnimation
+import com.rpathechicken.adapter.AdapterListTonase
 import com.rpathechicken.api.ApiEndPoint
 import com.rpathechicken.databinding.ActivityTonaseHeaderBinding
 import com.rpathechicken.helpers.SessionManager
 import com.rpathechicken.model.Default
+import com.rpathechicken.model.Tonase
 import com.rpathechicken.ui.admin.master.StoreRPAActivity
 import com.rpathechicken.utils.ItemAnimation
+import com.rpathechicken.utils.Tools
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
@@ -32,8 +35,8 @@ class TonaseHeaderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTonaseHeaderBinding
     private lateinit var session: SessionManager
     private lateinit var recyclerViewUser: RecyclerView
-    private lateinit var mAdapter: AdapterListAnimation
-    val items = ArrayList<Default>()
+    private lateinit var mAdapter: AdapterListTonase
+    val items = ArrayList<Tonase>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +52,6 @@ class TonaseHeaderActivity : AppCompatActivity() {
     }
 
     private fun initComponent() {
-
 
         recyclerViewUser = binding.recyclerView
         recyclerViewUser.layoutManager = LinearLayoutManager(this)
@@ -112,17 +114,19 @@ class TonaseHeaderActivity : AppCompatActivity() {
                     for (i in 0 until user.length()) {
 
                         items.add(
-                            Default(
+                            Tonase(
                                 user.getJSONObject(i).getInt("id"),
-                                "Tanggal : " + user.getJSONObject(i).getString("processed_at"),
-                                "Harga : " + user.getJSONObject(i).getString("price"),
-                                "Plat Number : " + user.getJSONObject(i).getString("plat_number")
+                                user.getJSONObject(i).getString("rpa_name"),
+                                user.getJSONObject(i).getString("processed_at"),
+                                user.getJSONObject(i).getString("price"),
+                                user.getJSONObject(i).getString("plat_number")
                             )
                         )
 
                     }
 
-                    mAdapter = AdapterListAnimation(applicationContext, items, animationType, true)
+
+                    mAdapter = AdapterListTonase(applicationContext, items, animationType)
                     recyclerViewUser.adapter = mAdapter
 
                     mAdapter.setOnItemClickListener { _, obj, _ ->
@@ -151,19 +155,7 @@ class TonaseHeaderActivity : AppCompatActivity() {
 
                     val error = errorBody.getString("message")
 
-                    val alertDialog =
-                        SweetAlertDialog(this@TonaseHeaderActivity, SweetAlertDialog.SUCCESS_TYPE)
-                    alertDialog.titleText = "Oops..."
-                    alertDialog.contentText = error
-                    alertDialog.show()
-
-                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
-                    btn.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this@TonaseHeaderActivity,
-                            R.color.colorPrimaryLight
-                        )
-                    )
+                    Tools.showError(this@TonaseHeaderActivity,error)
 
                 }
 
@@ -210,11 +202,7 @@ class TonaseHeaderActivity : AppCompatActivity() {
 
                     Log.d("tonase-detail", response!!.toString())
 
-                    val alertDialog =
-                        SweetAlertDialog(this@TonaseHeaderActivity, SweetAlertDialog.SUCCESS_TYPE)
-                    alertDialog.titleText = "Well Done..."
-                    alertDialog.contentText = response.getString("message")
-                    alertDialog.show()
+                    Tools.showSuccess(this@TonaseHeaderActivity,response.getString("message"))
 
                     getListTonaseH()
 
@@ -233,19 +221,7 @@ class TonaseHeaderActivity : AppCompatActivity() {
 
                     val error = errorBody.getString("message")
 
-                    val alertDialog =
-                        SweetAlertDialog(this@TonaseHeaderActivity, SweetAlertDialog.ERROR_TYPE)
-                    alertDialog.titleText = "Oops..."
-                    alertDialog.contentText = error
-                    alertDialog.show()
-
-                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
-                    btn.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this@TonaseHeaderActivity,
-                            R.color.colorPrimaryLight
-                        )
-                    )
+                    Tools.showError(this@TonaseHeaderActivity,error)
 
                 }
 
