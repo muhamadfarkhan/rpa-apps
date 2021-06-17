@@ -57,6 +57,7 @@ class TonaseHController extends Controller
                 $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
                 $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
                 $tonase['rpa_name'] = $tonase->rpa->name;
+                $tonase['rpa_address'] = $tonase->rpa->address;
                 
                 foreach($tonaseDetail as $row){
                     $detail[] = $row;

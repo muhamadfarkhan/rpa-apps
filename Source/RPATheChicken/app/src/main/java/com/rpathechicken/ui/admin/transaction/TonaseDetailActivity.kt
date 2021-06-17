@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -38,6 +39,7 @@ class TonaseDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTonaseDetailBinding
     private lateinit var session: SessionManager
     private lateinit var recyclerViewUser: RecyclerView
+    private var rpaIdVal: String = "0"
     private lateinit var mAdapter: AdapterListAnimation
     val items = ArrayList<Default>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
@@ -401,11 +403,11 @@ class TonaseDetailActivity : AppCompatActivity() {
                     binding.etTonaseTotEkor.setText(response.getJSONObject("tonase_header")
                         .getString("sum_ekor"))
 
-                    /*rpaIdVal = response.getJSONObject("area").getString("rpa_id")
-                    binding.dropdownRPA.setText(response.getJSONObject("area").getString("rpa_name")
-                            + "-" + response.getJSONObject("area").getString("rpa_address"))
+                    rpaIdVal = response.getJSONObject("tonase_header").getString("rpa_id")
+                    binding.dropdownRPA.setText(response.getJSONObject("tonase_header").getString("rpa_name")
+                            + "-" + response.getJSONObject("tonase_header").getString("rpa_address"))
 
-                    populateRPA()*/
+                    populateRPA()
                 }
 
                 override fun onError(anError: ANError?) {
@@ -423,6 +425,80 @@ class TonaseDetailActivity : AppCompatActivity() {
 
                     val alertDialog =
                         SweetAlertDialog(this@TonaseDetailActivity, SweetAlertDialog.ERROR_TYPE)
+                    alertDialog.titleText = "Oops..."
+                    alertDialog.contentText = error
+                    alertDialog.show()
+
+                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
+                    btn.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this@TonaseDetailActivity,
+                            R.color.colorPrimaryLight
+                        )
+                    )
+
+                }
+
+            })
+    }
+
+
+    private fun populateRPA() {
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.get(ApiEndPoint.list_rpa)
+            .addHeaders("Authorization", session.token)
+            .setPriority(Priority.MEDIUM)
+            .setOkHttpClient(okHttpClient)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-data", response!!.toString())
+
+                    val datas = response.getJSONArray("rpas")
+                    val rpaId: MutableList<String> = ArrayList()
+                    val rpas: MutableList<String> = ArrayList()
+
+                    for (i in 0 until datas.length()) {
+
+                        rpaId.add(datas.getJSONObject(i).getString("id"))
+                        rpas.add(datas.getJSONObject(i).getString("name")+"-"
+                                +datas.getJSONObject(i).getString("address") )
+                    }
+
+                    val adapterRpa: ArrayAdapter<*> =
+                        ArrayAdapter<Any?>(applicationContext, android.R.layout.simple_list_item_1,
+                            rpas as List<Any?>
+                        )
+                    binding.dropdownRPA.setAdapter(adapterRpa)
+                    binding.dropdownRPA.setOnItemClickListener { adapterView, view, i, l ->
+                        //Toast.makeText(applicationContext,rpaId[i], Toast.LENGTH_LONG).show()
+                        rpaIdVal = rpaId[i]
+                    }
+                }
+
+                override fun onError(anError: ANError?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-msg", anError!!.message.toString())
+                    Log.d("tonase-detail", anError.errorDetail)
+                    Log.d("tonase-body",anError.errorBody)
+                    Log.d("tonase-code", anError.errorCode.toString())
+
+                    val errorBody = JSONObject(anError.errorBody)
+
+                    val error = errorBody.getString("message")
+
+                    val alertDialog =
+                        SweetAlertDialog(this@TonaseDetailActivity, SweetAlertDialog.SUCCESS_TYPE)
                     alertDialog.titleText = "Oops..."
                     alertDialog.contentText = error
                     alertDialog.show()
