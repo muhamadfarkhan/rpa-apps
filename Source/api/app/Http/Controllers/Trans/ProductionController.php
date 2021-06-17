@@ -52,7 +52,8 @@ class ProductionController extends Controller
                     $detail[] = $row;
                     $row->qty = $row->qty.' unit';
                     $row->item_name = (!empty($row->item)) ? $row->item->name : '';
-                    $row->price = $row->capital_price;
+                    $row->price = 'Harga Modal ' . number_format($row->capital_price) . '/n' . 
+                                    'Harga Jual ' . number_format($row->sell_price);
                 }
             }
 
