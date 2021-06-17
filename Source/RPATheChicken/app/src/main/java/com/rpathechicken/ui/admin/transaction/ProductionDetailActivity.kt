@@ -2,6 +2,7 @@ package com.rpathechicken.ui.admin.transaction
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -27,18 +28,19 @@ import com.rpathechicken.databinding.ActivityProductionDetailBinding
 import com.rpathechicken.helpers.SessionManager
 import com.rpathechicken.model.Default
 import com.rpathechicken.utils.ItemAnimation
+import com.rpathechicken.utils.Tools
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
 class ProductionDetailActivity : AppCompatActivity() {
 
-    private lateinit var adapterRpa: ArrayAdapter<*>
-    private var rpaId: MutableList<String> = ArrayList()
+    private lateinit var adapterItem: ArrayAdapter<*>
+    private var itemId: MutableList<String> = ArrayList()
     private lateinit var binding: ActivityProductionDetailBinding
     private lateinit var session: SessionManager
-    private var rpaIdVal: String = "0"
-    private lateinit var recyclerViewUser: RecyclerView
+    private var itemIdVal: String = "0"
+    private lateinit var recyclerViewProd: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
     val items = ArrayList<Default>()
     private val animationType: Int = ItemAnimation.BOTTOM_UP
@@ -56,17 +58,101 @@ class ProductionDetailActivity : AppCompatActivity() {
 
     private fun initComponent() {
 
-        recyclerViewUser = binding.recyclerView
-        recyclerViewUser.layoutManager = LinearLayoutManager(this)
-        recyclerViewUser.setHasFixedSize(true)
+        recyclerViewProd = binding.recyclerView
+        recyclerViewProd.layoutManager = LinearLayoutManager(this)
+        recyclerViewProd.setHasFixedSize(true)
 
         binding.fabAddProduction.setOnClickListener {
             openDialogInputProd()
         }
 
-        //getListTonaseD(session.idEditData)
+        getListProduction(session.idEditData)
         getDataTonaseH(session.idEditData)
         getMasterItem()
+    }
+
+    private fun getListProduction(idEditData: Int) {
+
+        binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
+        binding.layoutProgress.textLoading.text = getString(R.string.getting_data)
+
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.get(ApiEndPoint.production_detail+"/{id}")
+            .addHeaders("Authorization", session.token)
+            .addPathParameter("id",idEditData.toString())
+            .setPriority(Priority.MEDIUM)
+            .setOkHttpClient(okHttpClient)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-data", response!!.toString())
+
+                    val detail = response.getJSONArray("productions")
+
+                    items.clear()
+
+                    Log.d("tonase-data", detail.toString())
+
+                    for (i in 0 until detail.length()) {
+
+                        items.add(
+                            Default(
+                                detail.getJSONObject(i).getInt("id"),
+                                detail.getJSONObject(i).getString("item_id"),
+                                detail.getJSONObject(i).getString("qty"),
+                                "Modal: " + detail.getJSONObject(i).getString("capital_price") +
+                                "Jual: " + detail.getJSONObject(i).getString("sell_price")
+                            )
+                        )
+
+                    }
+
+                    mAdapter = AdapterListAnimation(applicationContext, items, animationType, true)
+                    recyclerViewProd.adapter = mAdapter
+
+                    mAdapter.setOnItemClickListener { _, obj, _ ->
+                        //Toast.makeText(applicationContext,obj.username, Toast.LENGTH_LONG).show()
+                        session.idEditData = obj.id
+                        session.isCreate = false
+                        startActivity(Intent(applicationContext, TonaseDetailActivity::class.java))
+                    }
+
+                    mAdapter.setmOnItemDestroyListener { _, obj, _ ->
+                        //Toast.makeText(applicationContext,"delete " + obj.username, Toast.LENGTH_LONG).show()
+                        confirmDelete(obj.id)
+                    }
+                }
+
+                override fun onError(anError: ANError?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-msg", anError!!.message.toString())
+                    Log.d("tonase-detail", anError.errorDetail)
+                    Log.d("tonase-body", anError.errorBody)
+                    Log.d("tonase-code", anError.errorCode.toString())
+
+                    val errorBody = JSONObject(anError.errorBody)
+
+                    val error = errorBody.getString("message")
+
+                    Tools.showError(this@ProductionDetailActivity,error)
+
+                }
+
+            })
+    }
+
+    private fun confirmDelete(id: Int) {
+
     }
 
     private fun getMasterItem() {
@@ -90,18 +176,18 @@ class ProductionDetailActivity : AppCompatActivity() {
 
                     val datas = response.getJSONArray("items")
 
-                    val rpas: MutableList<String> = ArrayList()
+                    val items: MutableList<String> = ArrayList()
 
                     for (i in 0 until datas.length()) {
 
-                        rpaId.add(datas.getJSONObject(i).getString("id"))
-                        rpas.add(datas.getJSONObject(i).getString("initial")+"-"
+                        itemId.add(datas.getJSONObject(i).getString("id"))
+                        items.add(datas.getJSONObject(i).getString("initial")+"-"
                                 +datas.getJSONObject(i).getString("name") )
                     }
 
-                    adapterRpa =
+                    adapterItem =
                         ArrayAdapter<Any?>(applicationContext, android.R.layout.simple_list_item_1,
-                            rpas as List<Any?>
+                            items as List<Any?>
                         )
 
                 }
@@ -119,19 +205,7 @@ class ProductionDetailActivity : AppCompatActivity() {
 
                     val error = errorBody.getString("message")
 
-                    val alertDialog =
-                        SweetAlertDialog(this@ProductionDetailActivity, SweetAlertDialog.SUCCESS_TYPE)
-                    alertDialog.titleText = "Oops..."
-                    alertDialog.contentText = error
-                    alertDialog.show()
-
-                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
-                    btn.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this@ProductionDetailActivity,
-                            R.color.colorPrimaryLight
-                        )
-                    )
+                    Tools.showError(this@ProductionDetailActivity,error)
 
                 }
 
@@ -168,22 +242,26 @@ class ProductionDetailActivity : AppCompatActivity() {
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
 
-        val itemDropdown = dialog.findViewById<View>(R.id.dropdownRPA) as MaterialAutoCompleteTextView
-        itemDropdown.setAdapter(adapterRpa)
+        val itemDropdown = dialog.findViewById<View>(R.id.dropdownItem) as MaterialAutoCompleteTextView
+        itemDropdown.setAdapter(adapterItem)
         itemDropdown.setOnItemClickListener { adapterView, view, i, l ->
             //Toast.makeText(applicationContext,rpaId[i], Toast.LENGTH_LONG).show()
-            rpaIdVal = rpaId[i]
+            itemIdVal = itemId[i]
         }
-        val eTonEk = dialog.findViewById<View>(R.id.et_tonase_d_ekor) as EditText
+        val eProdUnit = dialog.findViewById<View>(R.id.et_unit_prod) as EditText
+        val eCapitalPrice = dialog.findViewById<View>(R.id.et_capital_price) as EditText
+        val eSellPrice = dialog.findViewById<View>(R.id.et_sell_price) as EditText
         (dialog.findViewById<View>(R.id.bt_cancel) as AppCompatButton).setOnClickListener {
             dialog.dismiss()
         }
 
         (dialog.findViewById<View>(R.id.bt_submit) as AppCompatButton).setOnClickListener {
 
-            val unit = eTonEk.text.toString().trim { it <= ' ' }
+            val unit = eProdUnit.text.toString().trim { it <= ' ' }
+            val capitalPrice = eCapitalPrice.text.toString().trim { it <= ' ' }
+            val sellPrice = eSellPrice.text.toString().trim { it <= ' ' }
 
-            if (unit.isEmpty()) {
+            if (unit.isEmpty() || capitalPrice.isEmpty() || sellPrice.isEmpty()) {
                 Toast.makeText(
                     applicationContext,
                     "Please fill the blank",
@@ -191,7 +269,7 @@ class ProductionDetailActivity : AppCompatActivity() {
                 ).show()
             }else{
                 dialog.dismiss()
-                storeProduction(rpaIdVal,unit)
+                storeProduction(itemIdVal,unit,capitalPrice,sellPrice)
             }
 
         }
@@ -200,9 +278,60 @@ class ProductionDetailActivity : AppCompatActivity() {
         dialog.window!!.attributes = lp
     }
 
-    private fun storeProduction(kilo: String, ekor: String) {
+    private fun storeProduction(itemIdVal: String, unit: String, capitalPrice: String, sellPrice: String) {
+        binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
+        binding.layoutProgress.textLoading.text = "Processing data"
 
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.post(ApiEndPoint.production_create)
+            .addHeaders("Authorization", session.token)
+            .addBodyParameter("qty", unit)
+            .addBodyParameter("item_id", itemIdVal)
+            .addBodyParameter("capital_price", capitalPrice)
+            .addBodyParameter("sell_price", sellPrice)
+            .addBodyParameter("tonase_id", session.idEditData.toString())
+            .setPriority(Priority.MEDIUM)
+            .setOkHttpClient(okHttpClient)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-rpa-detail", response!!.toString())
+
+                    val alertDialog = SweetAlertDialog(this@ProductionDetailActivity, SweetAlertDialog.SUCCESS_TYPE)
+                    alertDialog.titleText = "Well Done..."
+                    alertDialog.contentText = response.getString("message")
+                    alertDialog.show()
+
+                }
+
+                override fun onError(anError: ANError?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-msg", anError!!.message.toString())
+                    Log.d("tonase-detail", anError.errorDetail)
+                    Log.d("tonase-body",anError.errorBody)
+                    Log.d("tonase-code", anError.errorCode.toString())
+
+                    val errorBody = JSONObject(anError.errorBody)
+
+                    val error = errorBody.getString("message")
+
+                    Tools.showError(this@ProductionDetailActivity,error)
+
+                }
+
+            })
     }
+
 
     private fun getDataTonaseH(idEditData: Int) {
         binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
@@ -257,19 +386,7 @@ class ProductionDetailActivity : AppCompatActivity() {
 
                     val error = errorBody.getString("message")
 
-                    val alertDialog =
-                        SweetAlertDialog(this@ProductionDetailActivity, SweetAlertDialog.ERROR_TYPE)
-                    alertDialog.titleText = "Oops..."
-                    alertDialog.contentText = error
-                    alertDialog.show()
-
-                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
-                    btn.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this@ProductionDetailActivity,
-                            R.color.colorPrimaryLight
-                        )
-                    )
+                    Tools.showError(this@ProductionDetailActivity,error)
 
                 }
 
