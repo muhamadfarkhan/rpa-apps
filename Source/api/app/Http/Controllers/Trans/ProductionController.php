@@ -52,7 +52,7 @@ class ProductionController extends Controller
                     $detail[] = $row;
                     $row->qty = $row->qty.' unit';
                     $row->item_name = (!empty($row->item)) ? $row->item->name : '';
-                    $row->price = 'Harga Modal ' . number_format($row->capital_price) . '\n' . 
+                    $row->price = 'Harga Modal ' . number_format($row->capital_price) . ' ' . 
                                     'Harga Jual ' . number_format($row->sell_price);
                 }
             }
@@ -79,8 +79,8 @@ class ProductionController extends Controller
             'qty' => 'required|integer',
             'tonase_id' => 'required|integer',
             'item_id' => 'required|integer',
-            'capital_price' => 'required|integer',
-            'sell_price' => 'required|integer',
+            'capital_price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'sell_price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
         ]);
 
         if($this->checkHeader((int) $request->input('tonase_id'))){
