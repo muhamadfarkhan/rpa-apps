@@ -89,7 +89,7 @@ class ProductionController extends Controller
                 $production->tonase_id = (int) $request->input('tonase_id');
                 $production->capital_price = (int) $request->input('capital_price');
                 $production->sell_price = (int) $request->input('sell_price');
-                $production->processed_at = '';//$request->input('processed_at');
+                $production->processed_at = date('Y-m-d');//$request->input('processed_at');
                 $production->qty = (int) $request->input('qty');
                 
                 $production->save();
@@ -140,7 +140,7 @@ class ProductionController extends Controller
             $production->tonase_id = (int) $request->input('tonase_id');
             $production->capital_price = (int) $request->input('capital_price');
             $production->sell_price = (int) $request->input('sell_price');
-            $production->processed_at = '';//$request->input('processed_at');
+            $production->processed_at = date('Y-m-d');//$request->input('processed_at');
             $production->qty = (int) $request->input('qty');
             
             $production->save();
