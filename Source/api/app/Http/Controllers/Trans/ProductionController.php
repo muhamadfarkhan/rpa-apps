@@ -74,11 +74,9 @@ class ProductionController extends Controller
         $this->validate($request, [
             'qty' => 'required|integer',
             'tonase_id' => 'required|integer',
-            'user_id' => 'required|integer',
             'item_id' => 'required|integer',
             'capital_price' => 'required|integer',
             'sell_price' => 'required|integer',
-            'processed_at' => 'required'
         ]);
 
         if($this->checkHeader((int) $request->input('tonase_id'))){
