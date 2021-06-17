@@ -86,12 +86,12 @@ class ProductionController extends Controller
             try {
 
                 $production = new TrProduction;
-                $production->user_id = (int) $request->input('user_id');
+                $production->user_id = (int) Auth::user()->id;
                 $production->item_id = (int) $request->input('item_id');
                 $production->tonase_id = (int) $request->input('tonase_id');
                 $production->capital_price = (int) $request->input('capital_price');
                 $production->sell_price = (int) $request->input('sell_price');
-                $production->processed_at = $request->input('processed_at');
+                $production->processed_at = '';//$request->input('processed_at');
                 $production->qty = (int) $request->input('qty');
                 
                 $production->save();
@@ -137,12 +137,12 @@ class ProductionController extends Controller
         try {
 
             $production = TrProduction::find($request->input('id'));
-            $production->user_id = (int) $request->input('user_id');
+            $production->user_id = (int) Auth::user()->id;
             $production->item_id = (int) $request->input('item_id');
             $production->tonase_id = (int) $request->input('tonase_id');
             $production->capital_price = (int) $request->input('capital_price');
             $production->sell_price = (int) $request->input('sell_price');
-            $production->processed_at = $request->input('processed_at');
+            $production->processed_at = '';//$request->input('processed_at');
             $production->qty = (int) $request->input('qty');
             
             $production->save();
