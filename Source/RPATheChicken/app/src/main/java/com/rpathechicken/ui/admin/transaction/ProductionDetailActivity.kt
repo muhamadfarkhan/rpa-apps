@@ -108,8 +108,7 @@ class ProductionDetailActivity : AppCompatActivity() {
                                 detail.getJSONObject(i).getInt("id"),
                                 detail.getJSONObject(i).getString("item_id"),
                                 detail.getJSONObject(i).getString("qty"),
-                                "Modal: " + detail.getJSONObject(i).getString("capital_price") +
-                                "Jual: " + detail.getJSONObject(i).getString("sell_price")
+                                detail.getJSONObject(i).getString("price")
                             )
                         )
 
