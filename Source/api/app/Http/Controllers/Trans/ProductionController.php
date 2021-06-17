@@ -51,7 +51,7 @@ class ProductionController extends Controller
                 foreach($production as $row){
                     $detail[] = $row;
                     $row->qty = $row->qty.' unit';
-                    $row->item = $row->item;
+                    $row->item_name = (!empty($row->item)) ? $row->item->name : '';
                     $row->price = $row->capital_price;
                 }
             }
