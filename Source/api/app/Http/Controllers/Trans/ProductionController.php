@@ -51,7 +51,8 @@ class ProductionController extends Controller
                 foreach($production as $row){
                     $detail[] = $row;
                     $row->qty = $row->qty.' unit';
-                    $row->item = $row->item->name;
+                    $row->item = $row->item;
+                    $row->price = $row->capital_price;
                 }
             }
 
