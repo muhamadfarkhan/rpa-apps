@@ -304,11 +304,10 @@ class ProductionDetailActivity : AppCompatActivity() {
 
                     Log.d("tonase-rpa-detail", response!!.toString())
 
-                    val alertDialog = SweetAlertDialog(this@ProductionDetailActivity, SweetAlertDialog.SUCCESS_TYPE)
-                    alertDialog.titleText = "Well Done..."
-                    alertDialog.contentText = response.getString("message")
-                    alertDialog.show()
+                    Tools.showSuccess(this@ProductionDetailActivity,response.getString("message"))
 
+                    getListProduction(session.idEditData)
+                    
                 }
 
                 override fun onError(anError: ANError?) {

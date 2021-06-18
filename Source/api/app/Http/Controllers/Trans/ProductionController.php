@@ -87,6 +87,9 @@ class ProductionController extends Controller
 
             try {
 
+                $duplicateItem = TrProduction::where('item_id',$request->input('item_id'));
+                $duplicateItem->delete();
+
                 $production = new TrProduction;
                 $production->user_id = (int) Auth::user()->id;
                 $production->item_id = (int) $request->input('item_id');
