@@ -14,7 +14,7 @@ class AddColumnKiloMatiTonaseHeader extends Migration
     public function up()
     {
         Schema::table('trans_header_tonase', function (Blueprint $table) {
-            $table->decimal('kilo_mati',8,2)->default(0.00)->after('total_mati');
+            $table->decimal('kilo_mati',8,2)->default(0.00)->after('total_mati')->nullable();
         });
     }
 
