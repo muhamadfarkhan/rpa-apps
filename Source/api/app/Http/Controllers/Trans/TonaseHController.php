@@ -87,7 +87,7 @@ class TonaseHController extends Controller
         $this->validate($request, [
             'plat_number' => 'required|string',
             'rpa_id' => 'required|integer',
-            'price' => 'required|integer',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'tonase_date' => 'required',
             'kilo_mati' => 'regex:/^\d+(\.\d{1,2})?$/',
         ]);
