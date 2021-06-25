@@ -30,6 +30,7 @@ import com.rpathechicken.databinding.ActivityTonaseDetailBinding
 import com.rpathechicken.helpers.SessionManager
 import com.rpathechicken.model.Default
 import com.rpathechicken.utils.ItemAnimation
+import com.rpathechicken.utils.Tools
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
@@ -324,11 +325,7 @@ class TonaseDetailActivity : AppCompatActivity() {
 
                     Log.d("tonase-detail", response!!.toString())
 
-                    val alertDialog =
-                        SweetAlertDialog(this@TonaseDetailActivity, SweetAlertDialog.SUCCESS_TYPE)
-                    alertDialog.titleText = "Well Done..."
-                    alertDialog.contentText = response.getString("message")
-                    alertDialog.show()
+                    Tools.showSuccess(this@TonaseDetailActivity,response.getString("message"))
 
                     getListTonaseD(session.idEditData)
                     getDataTonaseH(session.idEditData)
@@ -348,19 +345,7 @@ class TonaseDetailActivity : AppCompatActivity() {
 
                     val error = errorBody.getString("message")
 
-                    val alertDialog =
-                        SweetAlertDialog(this@TonaseDetailActivity, SweetAlertDialog.ERROR_TYPE)
-                    alertDialog.titleText = "Oops..."
-                    alertDialog.contentText = error
-                    alertDialog.show()
-
-                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
-                    btn.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this@TonaseDetailActivity,
-                            R.color.colorPrimaryLight
-                        )
-                    )
+                    Tools.showError(this@TonaseDetailActivity,error)
 
                 }
 

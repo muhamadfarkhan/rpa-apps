@@ -88,7 +88,8 @@ class TonaseHController extends Controller
             'plat_number' => 'required|string',
             'rpa_id' => 'required|integer',
             'price' => 'required|integer',
-            'tonase_date' => 'required'
+            'tonase_date' => 'required',
+            'kilo_mati' => 'regex:/^\d+(\.\d{1,2})?$/',
         ]);
 
         if($this->checkDuplicateTOnase($request->input('tonase_date'),$request->input('rpa_id'))){
@@ -100,6 +101,8 @@ class TonaseHController extends Controller
                 $tonase->processed_at = $request->input('tonase_date');//date('Y-m-d');
                 $tonase->rpa_id = (int) $request->input('rpa_id');
                 $tonase->price = (int) $request->input('price');
+                $tonase->total_mati = (int) $request->input('total_mati');
+                $tonase->kilo_mati = $request->input('kilo_mati');
                 $tonase->user_id = Auth::user()->id;
                 
                 $tonase->save();

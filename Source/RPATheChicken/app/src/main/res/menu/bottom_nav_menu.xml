@@ -8,8 +8,8 @@
 
     <item
         android:id="@+id/navigation_stock"
-        android:icon="@drawable/ic_credit_card"
-        android:title="@string/title_stock" />
+        android:icon="@drawable/ic_add_shopping_cart"
+        android:title="@string/title_selling" />
 
     <item
         android:id="@+id/navigation_profile"

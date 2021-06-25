@@ -3,16 +3,16 @@ package com.rpathechicken.ui.admin.transaction
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -29,6 +29,7 @@ import com.rpathechicken.helpers.SessionManager
 import com.rpathechicken.model.Default
 import com.rpathechicken.utils.ItemAnimation
 import com.rpathechicken.utils.Tools
+import com.rpathechicken.utils.ViewAnimation
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
@@ -69,6 +70,35 @@ class ProductionDetailActivity : AppCompatActivity() {
         getListProduction(session.idEditData)
         getDataTonaseH(session.idEditData)
         getMasterItem()
+
+        binding.btToggleText.setOnClickListener {
+            toggleSectionText(binding.btToggleText)
+        }
+
+        binding.lytExpandText.visibility = GONE
+    }
+
+    private fun toggleSectionText(view: View) {
+        val show: Boolean = toggleArrow(view)
+        if (show) {
+            ViewAnimation.expand(binding.lytExpandText, ViewAnimation.AnimListener() {
+                fun onFinish() {
+                    Tools.nestedScrollTo(binding.layoutUpdateTonase, binding.lytExpandText)
+                }
+            })
+        } else {
+            ViewAnimation.collapse(binding.lytExpandText)
+        }
+    }
+
+    private fun toggleArrow(view: View): Boolean {
+        return if (view.rotation == 0f) {
+            view.animate().setDuration(200).rotation(180f)
+            true
+        } else {
+            view.animate().setDuration(200).rotation(0f)
+            false
+        }
     }
 
     private fun getListProduction(idEditData: Int) {
@@ -151,7 +181,68 @@ class ProductionDetailActivity : AppCompatActivity() {
     }
 
     private fun confirmDelete(id: Int) {
+        SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("Won't be able to recover this file!")
+            .setConfirmText("Yes,delete it!")
+            .setConfirmClickListener { sDialog ->
+                sDialog.dismissWithAnimation()
+                deleteProduction(id)
+            }
+            .setCancelButton(
+                "Cancel"
+            ) { sDialog -> sDialog.dismissWithAnimation() }
+            .show()
+    }
 
+    private fun deleteProduction(id: Int) {
+        binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
+        binding.layoutProgress.textLoading.text = getString(R.string.delete_data)
+
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.post(ApiEndPoint.production_destroy)
+            .addHeaders("Authorization", session.token)
+            .addBodyParameter("id", id.toString())
+            .setPriority(Priority.MEDIUM)
+            .setOkHttpClient(okHttpClient)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-detail", response!!.toString())
+
+                    Tools.showSuccess(this@ProductionDetailActivity,response.getString("message"))
+
+                    getListProduction(session.idEditData)
+                    getDataTonaseH(session.idEditData)
+
+                }
+
+                override fun onError(anError: ANError?) {
+
+                    binding.layoutProgress.progressOverlay.visibility = View.GONE
+
+                    Log.d("tonase-msg", anError!!.message.toString())
+                    Log.d("tonase-detail", anError.errorDetail)
+                    Log.d("tonase-body", anError.errorBody)
+                    Log.d("tonase-code", anError.errorCode.toString())
+
+                    val errorBody = JSONObject(anError.errorBody)
+
+                    val error = errorBody.getString("message")
+
+                    Tools.showError(this@ProductionDetailActivity,error)
+
+                }
+
+            })
     }
 
     private fun getMasterItem() {

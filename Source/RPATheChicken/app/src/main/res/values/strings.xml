@@ -21,4 +21,6 @@
     <string name="version_unknown">version unknown</string>
     <string name="delete_data">Deleting data</string>
     <string name="getting_data">Getting list data</string>
+    <string name="HIDE">hide</string>
+    <string name="title_selling">Penjualan</string>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -63,6 +64,8 @@ class ProductionActivity : AppCompatActivity() {
             session.isCreate = true
             startActivity(Intent(this, StoreTonaseHeaderActivity::class.java))
         }
+
+        binding.fabAddTonaseH.visibility = GONE
 
     }
 

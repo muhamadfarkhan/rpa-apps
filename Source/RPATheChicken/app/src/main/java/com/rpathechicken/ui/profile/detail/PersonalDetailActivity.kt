@@ -17,6 +17,7 @@ import com.rpathechicken.R
 import com.rpathechicken.api.ApiEndPoint
 import com.rpathechicken.databinding.ActivityPersonalDetailBinding
 import com.rpathechicken.helpers.SessionManager
+import com.rpathechicken.utils.Tools
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
@@ -83,19 +84,7 @@ class PersonalDetailActivity : AppCompatActivity() {
 
                     val error = errorBody.getString("message")
 
-                    val alertDialog =
-                        SweetAlertDialog(this@PersonalDetailActivity, SweetAlertDialog.SUCCESS_TYPE)
-                    alertDialog.titleText = "Oops..."
-                    alertDialog.contentText = error
-                    alertDialog.show()
-
-                    val btn: Button = alertDialog.findViewById<View>(R.id.confirm_button) as Button
-                    btn.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this@PersonalDetailActivity,
-                            R.color.colorPrimaryLight
-                        )
-                    )
+                    Tools.showError(this@PersonalDetailActivity,error)
 
                 }
 
