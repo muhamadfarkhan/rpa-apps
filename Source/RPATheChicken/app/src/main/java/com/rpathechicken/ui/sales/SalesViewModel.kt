@@ -1,10 +1,10 @@
-package com.rpathechicken.ui.stock
+package com.rpathechicken.ui.sales
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class StockViewModel : ViewModel() {
+class SalesViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is stock Fragment"

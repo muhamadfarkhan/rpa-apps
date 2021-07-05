@@ -1,4 +1,4 @@
-package com.rpathechicken.ui.stock
+package com.rpathechicken.ui.sales
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.rpathechicken.databinding.FragmentStockBinding
+import com.rpathechicken.databinding.FragmentSalesBinding
 
-class StockFragment : Fragment() {
+class SalesFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: StockViewModel
-    private var _binding: FragmentStockBinding? = null
+    private lateinit var dashboardViewModel: SalesViewModel
+    private var _binding: FragmentSalesBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,9 +23,9 @@ class StockFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         dashboardViewModel =
-            ViewModelProvider(this).get(StockViewModel::class.java)
+            ViewModelProvider(this).get(SalesViewModel::class.java)
 
-        _binding = FragmentStockBinding.inflate(inflater, container, false)
+        _binding = FragmentSalesBinding.inflate(inflater, container, false)
 
         return binding.root
     }

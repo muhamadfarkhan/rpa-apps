@@ -23,4 +23,5 @@
     <string name="getting_data">Getting list data</string>
     <string name="HIDE">hide</string>
     <string name="title_selling">Penjualan</string>
+    <string name="title_sales">Sales</string>
 </resources>

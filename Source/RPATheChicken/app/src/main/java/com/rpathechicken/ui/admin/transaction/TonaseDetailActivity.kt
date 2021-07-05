@@ -388,6 +388,11 @@ class TonaseDetailActivity : AppCompatActivity() {
                     binding.etTonaseTotEkor.setText(response.getJSONObject("tonase_header")
                         .getString("sum_ekor"))
 
+                    binding.etTonaseTotalMati.setText(response.getJSONObject("tonase_header")
+                        .getString("total_mati"))
+                    binding.etTonaseKiloMati.setText(response.getJSONObject("tonase_header")
+                        .getString("kilo_mati"))
+
                     rpaIdVal = response.getJSONObject("tonase_header").getString("rpa_id")
                     binding.dropdownRPA.setText(response.getJSONObject("tonase_header").getString("rpa_name")
                             + "-" + response.getJSONObject("tonase_header").getString("rpa_address"))

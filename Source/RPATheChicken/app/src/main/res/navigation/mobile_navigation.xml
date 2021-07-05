@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_stock"
-        android:name="com.rpathechicken.ui.stock.StockFragment"
-        android:label="@string/title_stock"
-        tools:layout="@layout/fragment_stock" />
+        android:id="@+id/navigation_sales"
+        android:name="com.rpathechicken.ui.sales.SalesFragment"
+        android:label="@string/title_sales"
+        tools:layout="@layout/fragment_sales" />
 
     <fragment
         android:id="@+id/navigation_profile"

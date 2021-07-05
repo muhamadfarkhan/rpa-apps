@@ -7,7 +7,7 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_stock"
+        android:id="@+id/navigation_sales"
         android:icon="@drawable/ic_add_shopping_cart"
         android:title="@string/title_selling" />
 
