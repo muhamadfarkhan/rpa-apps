@@ -51,5 +51,8 @@ class ApiEndPoint {
         const val production_update = "$BASE/production/update"
         const val production_destroy = "$BASE/production/destroy"
 
+        const val stock_header_list = "$BASE/stocks"
+        const val stock_header_detail = "$BASE/stock/detail"
+
     }
 }

@@ -28,17 +28,18 @@ class StockController extends Controller
      */
     public function all()
     {
-        $tonase = TrHTonase::orderBy('processed_at','desc')->production()->get();
+        $tonase = TrHTonase::orderBy('processed_at','desc')->get();
 
         foreach($tonase as $row){
-            if(!empty($row->rpa)){
+            if($row->production->count()){
                 $data[] = $row;
+                $row->production = $row->production();
                 $row->price = number_format($row->price);
-                $row->rpa_name = $row->rpa->name;
+                $row->rpa = $row->rpa;
             }
         }
         
-        return response()->json(['stoks' => $data ], 200);
+        return response()->json(['stocks' => $data ], 200);
          
     }
 
