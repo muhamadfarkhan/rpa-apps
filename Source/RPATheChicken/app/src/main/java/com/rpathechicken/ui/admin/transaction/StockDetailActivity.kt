@@ -1,19 +1,29 @@
 package com.rpathechicken.ui.admin.transaction
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.rpathechicken.R
 import com.rpathechicken.adapter.AdapterListAnimation
 import com.rpathechicken.api.ApiEndPoint
@@ -21,6 +31,7 @@ import com.rpathechicken.databinding.ActivityProductionDetailBinding
 import com.rpathechicken.databinding.ActivityStockDetailBinding
 import com.rpathechicken.helpers.SessionManager
 import com.rpathechicken.model.Default
+import com.rpathechicken.ui.admin.master.StoreAreaActivity
 import com.rpathechicken.utils.ItemAnimation
 import com.rpathechicken.utils.Tools
 import com.rpathechicken.utils.ViewAnimation
@@ -31,10 +42,13 @@ import java.util.concurrent.TimeUnit
 class StockDetailActivity : AppCompatActivity() {
 
     private lateinit var adapterItem: ArrayAdapter<*>
+    private lateinit var adapterArea: ArrayAdapter<*>
     private var itemId: MutableList<String> = ArrayList()
+    private var areaId: MutableList<String> = ArrayList()
     private lateinit var binding: ActivityStockDetailBinding
     private lateinit var session: SessionManager
     private var itemIdVal: String = "0"
+    private var areaIdVal: String = "0"
     private lateinit var recyclerViewProd: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
     val items = ArrayList<Default>()
@@ -59,6 +73,11 @@ class StockDetailActivity : AppCompatActivity() {
 
         getDataTonaseH(session.idEditData)
         getListProduction(session.idEditData)
+        getListArea()
+
+        binding.cardViewExpand.setOnClickListener {
+            toggleSectionText(binding.btToggleText)
+        }
 
         binding.btToggleText.setOnClickListener {
             toggleSectionText(binding.btToggleText)
@@ -71,7 +90,7 @@ class StockDetailActivity : AppCompatActivity() {
     private fun initToolbar() {
 
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.title = "Data Production Detail"
+        binding.toolbar.title = "Data Stock Detail"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -222,7 +241,10 @@ class StockDetailActivity : AppCompatActivity() {
                         //session.idEditData = obj.id
                         //session.isCreate = false
                         //startActivity(Intent(applicationContext, TonaseDetailActivity::class.java))
+                        showAllocate()
                     }
+
+                    mAdapter.isBtnRemove(false)
 
                 }
 
@@ -240,6 +262,139 @@ class StockDetailActivity : AppCompatActivity() {
                     val error = errorBody.getString("message")
 
                     Tools.showError(this@StockDetailActivity,error)
+
+                }
+
+            })
+    }
+
+    private fun showAllocate() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+
+        dialog.setContentView(R.layout.dialog_allocate_item)
+        dialog.setCancelable(true)
+
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+
+        val itemDropdown = dialog.findViewById<View>(R.id.dropdownArea) as MaterialAutoCompleteTextView
+        itemDropdown.setAdapter(adapterArea)
+        itemDropdown.setOnItemClickListener { adapterView, view, i, l ->
+            //Toast.makeText(applicationContext,rpaId[i], Toast.LENGTH_LONG).show()
+            areaIdVal = areaId[i]
+        }
+        val eProdUnit = dialog.findViewById<View>(R.id.et_unit_prod) as EditText
+        (dialog.findViewById<View>(R.id.bt_cancel) as AppCompatButton).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        (dialog.findViewById<View>(R.id.bt_submit) as AppCompatButton).setOnClickListener {
+
+            val unit = eProdUnit.text.toString().trim { it <= ' ' }
+
+            if (unit.isEmpty()){
+                Toast.makeText(
+                    applicationContext,
+                    "Please fill the blank",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                dialog.dismiss()
+                allocateItem(areaIdVal,unit)
+            }
+
+        }
+
+        dialog.show()
+        dialog.window!!.attributes = lp
+    }
+
+    private fun allocateItem(itemIdVal: String, unit: String) {
+
+    }
+
+    private fun getListArea() {
+
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.get(ApiEndPoint.area_list)
+            .addHeaders("Authorization", session.token)
+            .setPriority(Priority.MEDIUM)
+            .setOkHttpClient(okHttpClient)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+
+                    val areas = response!!.getJSONArray("areas")
+
+                    val items: MutableList<String> = ArrayList()
+
+                    for (i in 0 until areas.length()) {
+
+                        areaId.add(areas.getJSONObject(i).getString("id"))
+                        items.add(areas.getJSONObject(i).getString("name")+"-"
+                                +areas.getJSONObject(i).getString("address") )
+                    }
+
+                    adapterArea =
+                        ArrayAdapter<Any?>(applicationContext, android.R.layout.simple_list_item_1,
+                            items as List<Any?>
+                        )
+
+                }
+
+                override fun onError(anError: ANError?) {
+
+
+                }
+
+            })
+    }
+
+
+    private fun getListSeller() {
+
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.get(ApiEndPoint.seller_list)
+            .addHeaders("Authorization", session.token)
+            .setPriority(Priority.MEDIUM)
+            .setOkHttpClient(okHttpClient)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+
+                    val areas = response!!.getJSONArray("seller")
+
+                    val items: MutableList<String> = ArrayList()
+
+                    for (i in 0 until areas.length()) {
+
+                        areaId.add(areas.getJSONObject(i).getString("id"))
+                        items.add(areas.getJSONObject(i).getString("name")+"-"
+                                +areas.getJSONObject(i).getString("address") )
+                    }
+
+                    adapterArea =
+                        ArrayAdapter<Any?>(applicationContext, android.R.layout.simple_list_item_1,
+                            items as List<Any?>
+                        )
+
+                }
+
+                override fun onError(anError: ANError?) {
+
 
                 }
 

@@ -44,6 +44,18 @@ class UserController extends Controller
     }
 
     /**
+     * Get all User as Seller.
+     *
+     * @return Response
+     */
+    public function seller()
+    {
+        $seller =  User::where('level',4)->get();
+        
+        return response()->json(['sellers' => $seller], 200);
+    }
+
+    /**
      * Get one user.
      *
      * @return Response

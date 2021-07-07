@@ -29,6 +29,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // Master User
     $router->get('profile', 'Master\UserController@profile');
     $router->get('users', 'Master\UserController@all');
+    $router->get('user/seller', 'Master\UserController@seller');
     $router->get('user/{id}', 'Master\UserController@detail');
     $router->post('user/create', 'Master\UserController@store');
     $router->post('user/update', 'Master\UserController@update');

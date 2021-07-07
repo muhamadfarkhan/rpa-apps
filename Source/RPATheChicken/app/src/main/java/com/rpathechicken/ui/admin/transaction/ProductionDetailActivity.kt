@@ -71,6 +71,10 @@ class ProductionDetailActivity : AppCompatActivity() {
         getDataTonaseH(session.idEditData)
         getMasterItem()
 
+        binding.cardViewExpand.setOnClickListener {
+            toggleSectionText(binding.btToggleText)
+        }
+
         binding.btToggleText.setOnClickListener {
             toggleSectionText(binding.btToggleText)
         }

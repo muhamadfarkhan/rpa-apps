@@ -17,6 +17,8 @@ import com.rpathechicken.utils.ItemAnimation;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.VISIBLE;
+
 public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Default> items = new ArrayList<>();
@@ -26,6 +28,7 @@ public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.View
     private OnItemDeleteListener mOnItemDestroyListener;
     private int animation_type = 0;
     private boolean add_first = false;
+    private boolean btn_remove = true;
 
     public interface OnItemClickListener {
         void onItemClick(View view, Default obj, int position);
@@ -85,7 +88,7 @@ public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.View
             Default p = items.get(position);
 
             if(add_first){
-                view.txt_add_first.setVisibility(View.VISIBLE);
+                view.txt_add_first.setVisibility(VISIBLE);
                 view.txt_add_first.setText(p.getAdditionalFirst());
             }
 
@@ -107,6 +110,12 @@ public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
+            if(btn_remove){
+                view.btn_destroy.setVisibility(VISIBLE);
+            }else{
+                view.btn_destroy.setVisibility(View.GONE);
+            }
+
             setAnimation(view.itemView, position);
         }
     }
@@ -121,6 +130,11 @@ public class AdapterListAnimation extends RecyclerView.Adapter<RecyclerView.View
             }
         });
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public void isBtnRemove(Boolean remove){
+        btn_remove = remove;
+
     }
 
     @Override

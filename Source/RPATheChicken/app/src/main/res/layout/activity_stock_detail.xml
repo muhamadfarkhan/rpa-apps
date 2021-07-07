@@ -39,6 +39,7 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewExpand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_small"
@@ -71,7 +72,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Data Tonase"
+                            android:text="Data Production"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/grey_80" />
 

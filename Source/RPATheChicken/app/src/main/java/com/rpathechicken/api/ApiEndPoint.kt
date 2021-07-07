@@ -14,6 +14,7 @@ class ApiEndPoint {
         const val list_rpa = "$BASE/list/rpa"
         const val list_area = "$BASE/list/area"
         const val user_list = "$BASE/users"
+        const val seller_list = "$BASE/user/seller"
         const val user_detail = "$BASE/user"
         const val user_create = "$BASE/user/create"
         const val user_update = "$BASE/user/update"
