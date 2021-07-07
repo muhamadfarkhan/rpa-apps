@@ -80,6 +80,43 @@ class StockController extends Controller
     }
 
     /**
+     * Get detail item Stock.
+     *
+     * @return Response
+     */
+    public function detailItem(Request $request)
+    {
+        $tonase_id = $request->input('tonase_id');
+        $item_id = $request->input('item_id');
+        
+        try {
+            $tonase = TrHTonase::findOrFail($tonase_id);
+
+            $stock = array();
+            if(!empty(TrHTonase::findOrFail($tonase_id)->production)){
+                $tonaseDetail = TrHTonase::findOrFail($tonase_id)->detail;
+                $stock = TrHTonase::findOrFail($tonase_id)->stock->where('item_id',$item_id);
+
+                $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
+                $tonase['sum_kilo'] = $tonaseDetail->sum('kilogram');
+                
+                foreach($stock as $row){
+                    $detail[] = $row;
+                    $row->qty = $row->qty.' unit';
+                    $row->item_name = (!empty($row->item)) ? $row->item->name : '';
+                }
+            }
+
+            return response()->json(['tonase_header' => $tonase, 'stocks' => $stock], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Production not found! ' . $e, 'error' => $e], 404);
+        }
+
+    }
+
+    /**
      * Change a existing user.
      *
      * @param  Request  $request

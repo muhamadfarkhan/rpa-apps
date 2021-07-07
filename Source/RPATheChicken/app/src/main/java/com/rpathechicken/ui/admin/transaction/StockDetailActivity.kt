@@ -245,7 +245,7 @@ class StockDetailActivity : AppCompatActivity() {
                         //session.idEditData = obj.id
                         //session.isCreate = false
                         //startActivity(Intent(applicationContext, TonaseDetailActivity::class.java))
-                        showAllocate()
+                        showAllocate(obj.id.toString(), obj.name)
                     }
 
                     mAdapter.isBtnRemove(false)
@@ -272,7 +272,7 @@ class StockDetailActivity : AppCompatActivity() {
             })
     }
 
-    private fun showAllocate() {
+    private fun showAllocate(id: String, name: String) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
 
@@ -299,6 +299,10 @@ class StockDetailActivity : AppCompatActivity() {
         }
 
         val eProdUnit = dialog.findViewById<View>(R.id.et_unit_prod) as EditText
+        val etItemName = dialog.findViewById<View>(R.id.et_item_name) as EditText
+
+        etItemName.setText(name)
+
         (dialog.findViewById<View>(R.id.bt_cancel) as AppCompatButton).setOnClickListener {
             dialog.dismiss()
         }
