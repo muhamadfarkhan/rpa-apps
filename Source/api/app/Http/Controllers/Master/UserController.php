@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function seller()
     {
-        $seller =  User::where('level',4)->get();
+        $seller =  User::all();//User::where('level',4)->get();
         
         return response()->json(['sellers' => $seller], 200);
     }

@@ -43,12 +43,15 @@ class StockDetailActivity : AppCompatActivity() {
 
     private lateinit var adapterItem: ArrayAdapter<*>
     private lateinit var adapterArea: ArrayAdapter<*>
+    private lateinit var adapterSeller: ArrayAdapter<*>
     private var itemId: MutableList<String> = ArrayList()
     private var areaId: MutableList<String> = ArrayList()
+    private var sellerId: MutableList<String> = ArrayList()
     private lateinit var binding: ActivityStockDetailBinding
     private lateinit var session: SessionManager
     private var itemIdVal: String = "0"
     private var areaIdVal: String = "0"
+    private var sellerIdVal: String = "0"
     private lateinit var recyclerViewProd: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
     val items = ArrayList<Default>()
@@ -74,6 +77,7 @@ class StockDetailActivity : AppCompatActivity() {
         getDataTonaseH(session.idEditData)
         getListProduction(session.idEditData)
         getListArea()
+        getListSeller()
 
         binding.cardViewExpand.setOnClickListener {
             toggleSectionText(binding.btToggleText)
@@ -286,6 +290,14 @@ class StockDetailActivity : AppCompatActivity() {
             //Toast.makeText(applicationContext,rpaId[i], Toast.LENGTH_LONG).show()
             areaIdVal = areaId[i]
         }
+
+        val sellerDropdown = dialog.findViewById<View>(R.id.dropdownSeller) as MaterialAutoCompleteTextView
+        sellerDropdown.setAdapter(adapterSeller)
+        sellerDropdown.setOnItemClickListener { adapterView, view, i, l ->
+            //Toast.makeText(applicationContext,rpaId[i], Toast.LENGTH_LONG).show()
+            sellerIdVal = sellerId[i]
+        }
+
         val eProdUnit = dialog.findViewById<View>(R.id.et_unit_prod) as EditText
         (dialog.findViewById<View>(R.id.bt_cancel) as AppCompatButton).setOnClickListener {
             dialog.dismiss()
@@ -375,18 +387,19 @@ class StockDetailActivity : AppCompatActivity() {
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject?) {
 
-                    val areas = response!!.getJSONArray("seller")
+                    val sellers = response!!.getJSONArray("sellers")
+
+                    Log.d("sellers", sellers.toString())
 
                     val items: MutableList<String> = ArrayList()
 
-                    for (i in 0 until areas.length()) {
+                    for (i in 0 until sellers.length()) {
 
-                        areaId.add(areas.getJSONObject(i).getString("id"))
-                        items.add(areas.getJSONObject(i).getString("name")+"-"
-                                +areas.getJSONObject(i).getString("address") )
+                        sellerId.add(sellers.getJSONObject(i).getString("id"))
+                        items.add(sellers.getJSONObject(i).getString("name"))
                     }
 
-                    adapterArea =
+                    adapterSeller =
                         ArrayAdapter<Any?>(applicationContext, android.R.layout.simple_list_item_1,
                             items as List<Any?>
                         )
