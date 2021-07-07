@@ -33,19 +33,4 @@
         android:id="@+id/layout_progress"/>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_tonase_h"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:clickable="true"
-        android:tint="@android:color/white"
-        app:backgroundTint="@color/green_700"
-        app:fabSize="normal"
-        app:rippleColor="@color/grey_5"
-        app:srcCompat="@drawable/ic_add_box" />
-
 </RelativeLayout>

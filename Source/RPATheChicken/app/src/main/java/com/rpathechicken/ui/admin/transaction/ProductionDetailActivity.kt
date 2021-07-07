@@ -149,9 +149,9 @@ class ProductionDetailActivity : AppCompatActivity() {
 
                     mAdapter.setOnItemClickListener { _, obj, _ ->
                         //Toast.makeText(applicationContext,obj.username, Toast.LENGTH_LONG).show()
-                        session.idEditData = obj.id
-                        session.isCreate = false
-                        startActivity(Intent(applicationContext, TonaseDetailActivity::class.java))
+                        //session.idEditData = obj.id
+                        //session.isCreate = false
+                        //startActivity(Intent(applicationContext, TonaseDetailActivity::class.java))
                     }
 
                     mAdapter.setmOnItemDestroyListener { _, obj, _ ->

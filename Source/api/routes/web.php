@@ -83,7 +83,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('production/destroy', 'Trans\ProductionController@destroy');
 
     $router->get('stocks', 'Trans\StockController@all');
-    $router->get('stock/item', 'Trans\StockController@detail');
+    $router->get('stock/detail', 'Trans\StockController@detail');
     $router->get('stock/allocate', 'Trans\StockController@allocate');
 });
  

@@ -24,6 +24,7 @@ import com.rpathechicken.ui.admin.master.MasterItemActivity
 import com.rpathechicken.ui.admin.master.MasterRPAActivity
 import com.rpathechicken.ui.admin.master.MasterUserActivity
 import com.rpathechicken.ui.admin.transaction.ProductionActivity
+import com.rpathechicken.ui.admin.transaction.StockActivity
 import com.rpathechicken.ui.admin.transaction.TonaseHeaderActivity
 import com.rpathechicken.utils.Tools
 import okhttp3.OkHttpClient
@@ -149,6 +150,9 @@ class HomeFragment : Fragment() {
         }
         binding.btnTransProduction.setOnClickListener {
             startActivity(Intent(context, ProductionActivity::class.java))
+        }
+        binding.btnTransStock.setOnClickListener {
+            startActivity(Intent(context, StockActivity::class.java))
         }
     }
 

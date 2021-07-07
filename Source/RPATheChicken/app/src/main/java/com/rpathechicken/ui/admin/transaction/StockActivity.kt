@@ -52,11 +52,6 @@ class StockActivity : AppCompatActivity() {
         recyclerViewUser.layoutManager = LinearLayoutManager(this)
         recyclerViewUser.setHasFixedSize(true)
 
-        binding.fabAddTonaseH.setOnClickListener {
-            session.isCreate = true
-            startActivity(Intent(this, StoreTonaseHeaderActivity::class.java))
-        }
-
     }
 
     private fun initToolbar() {
@@ -130,7 +125,7 @@ class StockActivity : AppCompatActivity() {
                         //Toast.makeText(applicationContext,obj.username, Toast.LENGTH_LONG).show()
                         session.idEditData = obj.id
                         session.isCreate = false
-                        startActivity(Intent(applicationContext, TonaseDetailActivity::class.java))
+                        startActivity(Intent(applicationContext, StockDetailActivity::class.java))
                     }
 
                 }
