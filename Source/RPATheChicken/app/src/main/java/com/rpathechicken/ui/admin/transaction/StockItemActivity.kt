@@ -45,6 +45,7 @@ class StockItemActivity : AppCompatActivity() {
     private var areaIdVal: String = "0"
     private var itemName: String = "0"
     private var sellerIdVal: String = "0"
+    private var stockUnit: String = "0"
     private lateinit var recyclerViewProd: RecyclerView
     private lateinit var mAdapter: AdapterListAnimation
     val items = ArrayList<Default>()
@@ -130,7 +131,7 @@ class StockItemActivity : AppCompatActivity() {
             sellerIdVal = sellerId[i]
         }
 
-        val eProdUnit = dialog.findViewById<View>(R.id.et_unit_prod) as EditText
+        val etStockUnit = dialog.findViewById<View>(R.id.et_unit_stock) as EditText
         val etItemName = dialog.findViewById<View>(R.id.et_item_name) as EditText
 
         etItemName.setText(itemName)
@@ -141,17 +142,27 @@ class StockItemActivity : AppCompatActivity() {
 
         (dialog.findViewById<View>(R.id.bt_submit) as AppCompatButton).setOnClickListener {
 
-            val unit = eProdUnit.text.toString().trim { it <= ' ' }
+            val unit = etStockUnit.text.toString().trim { it <= ' ' }
 
-            if (unit.isEmpty()){
-                Toast.makeText(
-                    applicationContext,
-                    "Please fill the blank",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }else{
-                dialog.dismiss()
-                allocateItem(areaIdVal,unit)
+            when {
+                unit.isEmpty() -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Please fill the blank",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                unit.toInt() > stockUnit.toInt() -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Alokasi melebihi stock tersedia",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else -> {
+                    dialog.dismiss()
+                    allocateItem(areaIdVal,sellerIdVal,unit)
+                }
             }
 
         }
@@ -160,7 +171,7 @@ class StockItemActivity : AppCompatActivity() {
         dialog.window!!.attributes = lp
     }
 
-    private fun allocateItem(itemIdVal: String, unit: String) {
+    private fun allocateItem(areaId: String, sellerId: String, unit: String) {
 
         binding.layoutProgress.progressOverlay.visibility = View.VISIBLE
         binding.layoutProgress.textLoading.text = getString(R.string.getting_data)
@@ -175,6 +186,9 @@ class StockItemActivity : AppCompatActivity() {
             .addHeaders("Authorization", session.token)
             .addBodyParameter("tonase_id", tonaseIdProcess)
             .addBodyParameter("item_id", itemIdProcess)
+            .addBodyParameter("area_id", areaId)
+            .addBodyParameter("seller_id", sellerId)
+            .addBodyParameter("unit", unit)
             .setPriority(Priority.MEDIUM)
             .setOkHttpClient(okHttpClient)
             .build()
@@ -316,7 +330,12 @@ class StockItemActivity : AppCompatActivity() {
                     Log.d("stockitem-data", response!!.toString())
 
                     val stocks = response.getJSONArray("stocks")
-                    val tonase = response.getJSONArray("stocks")
+                    val tonase = response.getJSONObject("tonase_header")
+                    val production = response.getJSONObject("production")
+
+                    stockUnit = production.getString("qty")
+
+                    binding.etTotUnit.setText(stockUnit)
 
                     items.clear()
 

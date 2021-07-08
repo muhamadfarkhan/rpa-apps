@@ -129,7 +129,7 @@
             android:hint="Unit">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_unit_prod"
+                android:id="@+id/et_unit_stock"
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:layout_width="match_parent"

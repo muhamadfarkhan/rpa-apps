@@ -86,6 +86,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('stocks', 'Trans\StockController@all');
     $router->get('stock/detail', 'Trans\StockController@detail');
     $router->post('stock/detail/items', 'Trans\StockController@detailItem');
-    $router->get('stock/allocate', 'Trans\StockController@allocate');
+    $router->post('stock/allocate', 'Trans\StockController@allocate');
 });
  

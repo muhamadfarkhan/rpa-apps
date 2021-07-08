@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TrHTonase;
 use App\Models\TrProduction;
+use App\Models\TrStock;
 use App\Models\MItem;
 
 class StockController extends Controller
@@ -92,7 +93,7 @@ class StockController extends Controller
         try {
             $tonase = TrHTonase::findOrFail($tonase_id);
 
-            $stock = array();
+            $detail = array();
             if(!empty(TrHTonase::findOrFail($tonase_id)->production)){
                 $tonaseDetail = TrHTonase::findOrFail($tonase_id)->detail;
                 $production = TrHTonase::findOrFail($tonase_id)->production->where('item_id',$item_id)->first();
@@ -108,7 +109,7 @@ class StockController extends Controller
                 }
             }
 
-            return response()->json(['tonase_header' => $tonase, 'production' => $production, 'stocks' => $stock], 200);
+            return response()->json(['tonase_header' => $tonase, 'production' => $production, 'stocks' => $detail], 200);
 
         } catch (\Exception $e) {
 
@@ -127,29 +128,63 @@ class StockController extends Controller
     {
         //validate incoming request 
         $this->validate($request, [
-            'id' => 'required|integer',
+            'tonase_id' => 'required|integer',
+            'item_id' => 'required|integer',
+            'area_id' => 'required|integer',
+            'seller_id' => 'required|integer',
+            'unit' => 'required|integer',
         ]);
 
-        try {
+        $tonase_id = (int) $request->input('tonase_id');
+        $item_id = (int) $request->input('item_id');
+        $qty = (int) $request->input('unit');
 
-            $production = TrProduction::find($request->input('id'));
-            $production->user_id = (int) Auth::user()->id;
-            $production->item_id = (int) $request->input('item_id');
-            $production->tonase_id = (int) $request->input('tonase_id');
-            $production->capital_price = (int) $request->input('capital_price');
-            $production->sell_price = (int) $request->input('sell_price');
-            $production->processed_at = date('Y-m-d');//$request->input('processed_at');
-            $production->qty = (int) $request->input('qty');
+        // return $this->checkLimitTotal($tonase_id,$item_id,$unit);
+
+        if($this->checkLimitTotal($tonase_id,$item_id,$qty)){
+
+            try {
+
+                $stockItem = new TrStock;
+                $stockItem->tonase_id = $tonase_id;
+                $stockItem->item_id = $item_id;
+                $stockItem->area_id = (int) $request->input('area_id');
+                $stockItem->seller_id = (int) $request->input('seller_id');
+                $stockItem->qty = $qty;
+                
+                $stockItem->save();
+
+                //return successful response
+                return response()->json(['stock_item' => $stockItem, 'message' => 'Successfully allocated'], 201);
+
+            } catch (\Exception $e) {
+                //return error message
+                return response()->json(['message' => 'Allocate failed!', 'error' => $e], 409);
+            }
+
+        }else{
             
-            $production->save();
-
-            //return successful response
-            return response()->json(['production' => $production, 'message' => 'Successfully updated'], 201);
-
-        } catch (\Exception $e) {
-            //return error message
-            return response()->json(['message' => 'Update detail tonase failed!', 'error' => $e], 409);
+            return response()->json(['message' => 'Allocate failed!', 'error' => 'Alokasi melebihi stok yang tersedia'], 409);
         }
+
+    }
+
+    private function checkLimitTotal($tonase_id,$item_id,$qty){
+
+        $totalStockProd = TrProduction::where('item_id',$item_id)
+                        ->where('tonase_id',$tonase_id)->first();
+
+            try {
+
+                if((int) $totalStockProd->qty > $qty){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }catch(\Exception $e){
+                return false;
+            }
 
     }
 
