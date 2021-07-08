@@ -226,7 +226,7 @@ class StockDetailActivity : AppCompatActivity() {
 
                         items.add(
                             Default(
-                                detail.getJSONObject(i).getInt("id"),
+                                detail.getJSONObject(i).getInt("item_id"),
                                 detail.getJSONObject(i).getString("item_name"),
                                 detail.getJSONObject(i).getString("qty"),
                                 detail.getJSONObject(i).getString("price")

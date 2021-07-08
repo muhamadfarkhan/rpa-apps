@@ -95,7 +95,7 @@ class StockController extends Controller
             $stock = array();
             if(!empty(TrHTonase::findOrFail($tonase_id)->production)){
                 $tonaseDetail = TrHTonase::findOrFail($tonase_id)->detail;
-                $production = TrHTonase::findOrFail($tonase_id)->production->where('item_id',$item_id);
+                $production = TrHTonase::findOrFail($tonase_id)->production->where('item_id',$item_id)->first();
                 $stock = TrHTonase::findOrFail($tonase_id)->stock->where('item_id',$item_id);
 
                 $tonase['sum_ekor'] = $tonaseDetail->sum('ekor');
