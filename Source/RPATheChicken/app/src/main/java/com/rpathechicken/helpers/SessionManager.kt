@@ -68,6 +68,28 @@ class SessionManager(var c: Context) {
             editor.putString("level", level)
             editor.commit()
         }
+
+    var tonaseId: String?
+        get() = pref.getString("tonaseId", "0")
+        set(tonaseId) {
+            editor.putString("tonaseId", tonaseId)
+            editor.commit()
+        }
+
+    var itemId: String?
+        get() = pref.getString("itemId", "0")
+        set(itemId) {
+            editor.putString("itemId", itemId)
+            editor.commit()
+        }
+
+    var itemName: String?
+        get() = pref.getString("itemName", "0")
+        set(itemName) {
+            editor.putString("itemName", itemName)
+            editor.commit()
+        }
+
     var deviceLimit: String?
         get() = pref.getString("deviceLimit", "1")
         set(deviceLimit) {

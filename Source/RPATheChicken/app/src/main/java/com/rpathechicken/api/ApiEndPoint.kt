@@ -54,6 +54,8 @@ class ApiEndPoint {
 
         const val stock_header_list = "$BASE/stocks"
         const val stock_header_detail = "$BASE/stock/detail"
+        const val stock_detail_item = "$BASE/stock/detail/items"
+        const val stock_allocate = "$BASE/stock/allocate"
 
     }
 }

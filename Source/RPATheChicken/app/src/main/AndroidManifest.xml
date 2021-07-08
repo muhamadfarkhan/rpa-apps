@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".ui.admin.transaction.StockItemActivity"
+            android:theme="@style/AppTheme.Material" />
+        <activity
             android:name=".ui.admin.transaction.StockDetailActivity"
             android:theme="@style/AppTheme.Material" />
         <activity android:name=".ui.admin.transaction.StockActivity" />
