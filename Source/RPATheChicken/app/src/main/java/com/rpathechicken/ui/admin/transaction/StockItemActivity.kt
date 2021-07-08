@@ -68,6 +68,11 @@ class StockItemActivity : AppCompatActivity() {
     }
 
     private fun initComponent() {
+
+        recyclerViewProd = binding.recyclerView
+        recyclerViewProd.layoutManager = LinearLayoutManager(this)
+        recyclerViewProd.setHasFixedSize(true)
+
         getListArea()
         getListSeller()
         getListStockItem()
@@ -184,10 +189,10 @@ class StockItemActivity : AppCompatActivity() {
 
                     binding.layoutProgress.progressOverlay.visibility = View.GONE
 
-                    Log.d("stockitem-allocate-msg", anError!!.message.toString())
-                    Log.d("stockitem-allocate-detail", anError.errorDetail)
-                    Log.d("stockitem-allocate-body", anError.errorBody)
-                    Log.d("stockitem-allocate-code", anError.errorCode.toString())
+                    Log.d("stock-allocate-msg", anError!!.message.toString())
+                    Log.d("stock-allocate-detail", anError.errorDetail)
+                    Log.d("stock-allocate-body", anError.errorBody)
+                    Log.d("stock-allocate-code", anError.errorCode.toString())
 
                     val errorBody = JSONObject(anError.errorBody)
 
@@ -261,7 +266,7 @@ class StockItemActivity : AppCompatActivity() {
 
                     val sellers = response!!.getJSONArray("sellers")
 
-                    Log.d("stockitem", sellers.toString())
+                    Log.d("seller", sellers.toString())
 
                     val items: MutableList<String> = ArrayList()
 
@@ -311,6 +316,7 @@ class StockItemActivity : AppCompatActivity() {
                     Log.d("stockitem-data", response!!.toString())
 
                     val stocks = response.getJSONArray("stocks")
+                    val tonase = response.getJSONArray("stocks")
 
                     items.clear()
 
