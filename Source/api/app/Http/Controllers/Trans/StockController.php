@@ -177,18 +177,20 @@ class StockController extends Controller
         $totalLastStock = TrStock::where('item_id',$item_id)
         ->where('tonase_id',$tonase_id)->sum('qty');
 
-        return $totalLastStock;
-        // try {
+        // return $totalLastStock;
 
-        //     if((int) $totalStockProd->qty > $qty){
-        //         return true;
-        //     }else{
-        //         return false;
-        //     }
+        $limit = (int) $totalStockProd->qty - (int) $totalLastStock;
 
-        // }catch(\Exception $e){
-        //     return false;
-        // }
+        try {
+            if($limit > $qty){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(\Exception $e){
+            return false;
+        }
 
     }
 
