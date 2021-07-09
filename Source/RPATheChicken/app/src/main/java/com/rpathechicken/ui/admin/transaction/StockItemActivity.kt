@@ -197,6 +197,8 @@ class StockItemActivity : AppCompatActivity() {
 
                     binding.layoutProgress.progressOverlay.visibility = View.GONE
 
+                    getListStockItem()
+
                 }
 
                 override fun onError(anError: ANError?) {

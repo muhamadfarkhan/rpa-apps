@@ -139,7 +139,7 @@ class StockController extends Controller
         $item_id = (int) $request->input('item_id');
         $qty = (int) $request->input('unit');
 
-        // return $this->checkLimitTotal($tonase_id,$item_id,$unit);
+        return $this->checkLimitTotal($tonase_id,$item_id,$unit);
 
         if($this->checkLimitTotal($tonase_id,$item_id,$qty)){
 
@@ -174,17 +174,18 @@ class StockController extends Controller
         $totalStockProd = TrProduction::where('item_id',$item_id)
                         ->where('tonase_id',$tonase_id)->first();
 
-            try {
+        return $totalStockProd->qty;
+            // try {
 
-                if((int) $totalStockProd->qty > $qty){
-                    return true;
-                }else{
-                    return false;
-                }
+            //     if((int) $totalStockProd->qty > $qty){
+            //         return true;
+            //     }else{
+            //         return false;
+            //     }
 
-            }catch(\Exception $e){
-                return false;
-            }
+            // }catch(\Exception $e){
+            //     return false;
+            // }
 
     }
 
