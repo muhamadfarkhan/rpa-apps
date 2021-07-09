@@ -184,7 +184,7 @@ class StockController extends Controller
         $limit = (int) $totalStockProd->qty - (int) $totalLastStock;
 
         try {
-            if($limit > $qty){
+            if($limit >= $qty){
                 return true;
             }else{
                 return false;

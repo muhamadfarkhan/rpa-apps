@@ -348,9 +348,9 @@ class StockItemActivity : AppCompatActivity() {
                         items.add(
                             Default(
                                 stocks.getJSONObject(i).getInt("id"),
-                                stocks.getJSONObject(i).getString("seller_id"),
-                                stocks.getJSONObject(i).getString("seller_id"),
-                                stocks.getJSONObject(i).getString("seller_id")
+                                stocks.getJSONObject(i).getString("area_name"),
+                                stocks.getJSONObject(i).getString("seller_name"),
+                                stocks.getJSONObject(i).getString("qty")
                             )
                         )
 
