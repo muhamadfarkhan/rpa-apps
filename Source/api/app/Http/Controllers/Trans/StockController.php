@@ -139,7 +139,7 @@ class StockController extends Controller
         $item_id = (int) $request->input('item_id');
         $qty = (int) $request->input('unit');
 
-        return $this->checkLimitTotal($tonase_id,$item_id,$unit);
+        return $this->checkLimitTotal($tonase_id,$item_id,$qty);
 
         if($this->checkLimitTotal($tonase_id,$item_id,$qty)){
 
