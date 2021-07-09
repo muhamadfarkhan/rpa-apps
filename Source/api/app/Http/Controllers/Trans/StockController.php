@@ -164,7 +164,7 @@ class StockController extends Controller
 
         }else{
             
-            return response()->json(['message' => 'Allocate failed!', 'error' => 'Alokasi melebihi stok yang tersedia'], 409);
+            return response()->json(['message' => 'Alokasi melebihi stok yang tersedia', 'error' => 'Alokasi melebihi stok yang tersedia'], 409);
         }
 
     }
