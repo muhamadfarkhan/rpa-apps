@@ -106,6 +106,8 @@ class StockController extends Controller
                     $detail[] = $row;
                     $row->qty = $row->qty.' unit';
                     $row->item_name = (!empty($row->item)) ? $row->item->name : '';
+                    $row->area_name = (!empty($row->area)) ? $row->area->name : '';
+                    $row->seller_name = (!empty($row->seller)) ? $row->seller->name : '';
                 }
             }
 

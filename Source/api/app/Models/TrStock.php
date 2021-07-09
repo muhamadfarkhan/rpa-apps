@@ -12,4 +12,14 @@ class TrStock extends Model
     {
         return $this->hasOne('App\Models\MItem', 'id' , 'item_id');
     }
+
+    public function seller()
+    {
+        return $this->hasOne('App\Models\User', 'id' , 'seller_id');
+    }
+
+    public function area()
+    {
+        return $this->hasOne('App\Models\MArea', 'id' , 'area_id');
+    }
 }
