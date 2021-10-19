@@ -97,7 +97,7 @@ class StoreTonaseHeaderActivity : AppCompatActivity() {
             //set dark light
             datePicker.isThemeDark = false
             datePicker.accentColor = resources.getColor(R.color.colorPrimary)
-            datePicker.minDate = cur_calender
+            //datePicker.minDate = cur_calender
             datePicker.show(fragmentManager, "Datepickerdialog")
         }
 

@@ -32,16 +32,16 @@ class SalesController extends Controller
     {
         switch (Auth::user()->level) {
             case 1:
-              return $this->salesAdmin;
+              return $this->salesAdmin();
               break;
             case 2:
-              return $this->salesRPA;
+              return $this->salesRPA();
               break;
             case 3:
-              return $this->salesArea;
+              return $this->salesArea();
               break;
             default:
-              return $this->salesSeller;
+              return $this->salesSeller();
         } 
     }
 
@@ -64,6 +64,28 @@ class SalesController extends Controller
         }
         
         return response()->json(['sales' => $data ], 200);
+
+    }
+
+    /**
+     * Get detail sales Seller.
+     *
+     * @return Response
+     */
+    private function salesSeller()
+    {
+        $today = date('Y-m-d');
+
+        $stock = TrHTonase::where('processed_at',$today)->first()->stock;
+
+        $detail = array();
+        foreach($stock as $row){
+            $detail[] = $row;
+            $row->qty = $row->qty.' unit';
+            $row->item_name = (!empty($row->item)) ? $row->item->name : '';
+        }
+        
+      return response()->json(['stock' => $detail, "you" => Auth::user()], 200);
 
     }
 
