@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">RPA The Chicken</string>
+    <string name="title_home">Home</string>
+    <string name="title_stock">Stock</string>
+    <string name="title_profile">Profile</string>
+    <string name="detail_profile">detail profile</string>
+    <string name="title_activity_personal_detail">Personal Detail</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="app_version">Build Version 1.0</string>
+    <string name="about_text">Apps Rumah Potong Ayam The Chicken</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="changing_password">Changing your password</string>
+    <string name="title_default">Menu</string>
+    <string name="version_unknown">version unknown</string>
+    <string name="delete_data">Deleting data</string>
+    <string name="getting_data">Getting list data</string>
+    <string name="HIDE">hide</string>
+    <string name="title_selling">Penjualan</string>
+    <string name="title_sales">Sales</string>
+</resources>
